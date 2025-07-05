@@ -42,6 +42,32 @@ int Nmea::parse(String nmea) {
 
 
 
+void Nmea::printData(void) {
+  Serial.println("");
+  // Serial.println("Statut anemometre: " + String(bateau.get_wind_sensorStatus()));
+  Serial.println("Statut GPS: " + String(get_ground_sensorStatus()));
+
+  Serial.println("");
+  Serial.println("Date: " + String(get_ground_date()));
+  Serial.println("Heure UTC: " + get_ground_time());
+  Serial.println("Temps de navigation: " + String(get_running_time()) + " s");
+
+  Serial.println("");
+  Serial.println("Latitude: " + get_ground_latitude() + " " + String(get_ground_latDir()));
+  Serial.println("Longitude: " + get_ground_longitude() + " " + String(get_ground_longDir()));
+  Serial.println("Vitesse sol: " + String(get_ground_speedKts()) + " kt");
+  Serial.println("Cap: " + String(get_ground_course()) + "°");
+  
+  Serial.println("");
+  Serial.println("Profondeur sous quille : " + String(get_water_depthMeters()) + " m");
+  Serial.println("Vitesse dans l'eau: " + String(get_water_speedKnots()) + " kt");
+  Serial.println("Temperature de l'eau: " + String(get_water_temperatureCelsius()) + " °C");
+
+  Serial.println("");
+  Serial.println("Direction du vent: " + String(get_wind_angle()) + "°");
+  Serial.println("Vitesse du vent: " + String(get_wind_speedKts()) + " kt");
+}
+
 // Mutateurs et accesseurs
 
 int Nmea::set_ground_time(String t) {

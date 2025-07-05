@@ -12,6 +12,7 @@ class Nmea
 {
 public:  
   int parse(String nmea);
+  void printData(void);
 
 
   int set_ground_time(String t);
