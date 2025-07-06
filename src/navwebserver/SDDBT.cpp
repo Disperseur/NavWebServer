@@ -14,9 +14,9 @@ SDDBT_Data parseSDDBT(String nmea) {
     lastIndex = index + 1;
 
     switch (fieldIndex) {
-      case 1: data.water_depthFeet = field.toFloat(); break;
-      case 3: data.water_depthMeters = field.toFloat(); break;
-      case 5: data.water_depthFathoms = field.toFloat(); break;
+      case 1: data.water_depthFeet = round(field.toFloat()); break;
+      case 3: data.water_depthMeters = round(field.toFloat()); break;
+      case 5: data.water_depthFathoms = round(field.toFloat()); break;
     }
 
     fieldIndex++;

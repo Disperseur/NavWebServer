@@ -15,6 +15,7 @@ void loop() {
   while (Serial1.available()) {
     String msg = Serial1.readStringUntil('\n');
     bateau.parse(msg);
+    bateau.printData();
   }
 
   server.handleClient(bateau);

@@ -13,8 +13,8 @@ struct GPRMC_Data {
   char    ground_latDir;
   String  ground_longitude;
   char    ground_lonDir;
-  float   ground_speedKts;  // en noeuds
-  float   ground_course; // en degrés
+  int   ground_speedKts;  // en noeuds
+  int   ground_course; // en degrés
   String  ground_date;
 };
 

@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 struct WIMTW_Data {
-  float   water_temperatureCelsius;
+  int   water_temperatureCelsius;
   char    water_temperatureUnit; // C
 };
 

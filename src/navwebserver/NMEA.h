@@ -23,14 +23,14 @@ public:
   int set_ground_latDir(char latD);
   int set_ground_longitude(String lon);
   int set_ground_longDir(char lonD);
-  int set_ground_speedKts(float s);
-  int set_ground_course(float c);
-  int set_water_depthMeters(float d);
-  int set_water_speedKnots(float s);
-  int set_water_temperatureCelsius(float t);
-  int set_wind_angle(float a);
+  int set_ground_speedKts(int s);
+  int set_ground_course(int c);
+  int set_water_depthMeters(int d);
+  int set_water_speedKnots(int s);
+  int set_water_temperatureCelsius(int t);
+  int set_wind_angle(int a);
   int set_wind_angleReference(char ar);
-  int set_wind_speedKts(float s);
+  int set_wind_speedKts(int s);
   int set_wind_speedUnit(char u);
 
   unsigned long get_running_time(void);
@@ -42,14 +42,14 @@ public:
   char get_ground_latDir(void);
   String get_ground_longitude(void);
   char get_ground_longDir(void);
-  float get_ground_speedKts(void);
-  float get_ground_course(void);
-  float get_water_depthMeters(void);
-  float get_water_speedKnots(void);
-  float get_water_temperatureCelsius(void);
-  float get_wind_angle(void);
+  int get_ground_speedKts(void);
+  int get_ground_course(void);
+  int get_water_depthMeters(void);
+  int get_water_speedKnots(void);
+  int get_water_temperatureCelsius(void);
+  int get_wind_angle(void);
   char get_wind_angleReference(void);
-  float get_wind_speedKts(void);
+  int get_wind_speedKts(void);
   char get_wind_speedUnit(void);
 
   
@@ -67,16 +67,16 @@ private:
   char    ground_latDir;
   String  ground_longitude;
   char    ground_longDir;
-  float   ground_speedKts;
-  float   ground_course;
+  int   ground_speedKts;
+  int   ground_course;
 
-  float   water_depthMeters;
-  float   water_speedKnots;
-  float   water_temperatureCelsius;
+  int   water_depthMeters;
+  int   water_speedKnots;
+  int   water_temperatureCelsius;
 
-  float   wind_angle;
+  int   wind_angle;
   char    wind_angleReference;
-  float   wind_speedKts;
+  int   wind_speedKts;
 
 };
 

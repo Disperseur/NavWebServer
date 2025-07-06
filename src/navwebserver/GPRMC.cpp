@@ -10,7 +10,7 @@ String formatNMEACoordinate(String raw, Coord_t coord_type) {
 
 
   String degrees = raw.substring(0, degreeLen);
-  String minutes = raw.substring(degreeLen);
+  String minutes = raw.substring(degreeLen, degreeLen+4);
 
   String result = degrees + "°" + minutes + "'";
   return result;
@@ -23,7 +23,7 @@ String formatNMEATime(String rawTime) {
   String hour = rawTime.substring(0, 2);
   String minute = rawTime.substring(2, 4);
   String second = rawTime.substring(4, 6);
-  return hour + ":" + minute + ":" + second;
+  return hour + ":" + minute; // + ":" + second;
 }
 
 // Convertit ddmmyy en JJ/MM/AAAA
@@ -69,8 +69,8 @@ GPRMC_Data parseGPRMC(String nmea) {
       case 4: data.ground_latDir = field.length() > 0 ? field.charAt(0) : ' '; break;
       case 5: rawLon = field; break;
       case 6: data.ground_lonDir = field.length() > 0 ? field.charAt(0) : ' '; break;
-      case 7: data.ground_speedKts = field.toFloat(); break;
-      case 8: data.ground_course = field.toFloat(); break;
+      case 7: data.ground_speedKts = round(field.toFloat()); break; // field.round(field.toFloat()); break;
+      case 8: data.ground_course = round(field.toFloat()); break;
       case 9: rawDate = field; break;
     }
 
