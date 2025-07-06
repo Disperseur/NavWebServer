@@ -51,13 +51,14 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       color: #666;
       margin-top: 10px;
     }
-
-    #windCanvas {
+    #windCanvas, #speedGraph {
       display: block;
-      margin: 0 auto;
+      margin: 10px auto;
     }
   </style>
   <script>
+    let speedHistory = [];
+
     function updateData() {
       fetch('/data')
         .then(response => response.json())
@@ -67,12 +68,12 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
             if (el) el.textContent = data[key];
           }
 
-          // Dessin du vent
+          // --- Dessin du vent ---
           const canvas = document.getElementById('windCanvas');
           const ctx = canvas.getContext('2d');
           const cx = canvas.width / 2;
           const cy = canvas.height / 2;
-          const radius = 80; // rayon du cercle
+          const radius = 80;
           ctx.clearRect(0, 0, canvas.width, canvas.height);
 
           // Cercle
@@ -82,15 +83,11 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
           ctx.lineWidth = 2;
           ctx.stroke();
 
-          // Trait = aiguille du vent
+          // Aiguille du vent
           const angleDeg = parseFloat(data.wind_angle) || 0;
-          const angleRad = (angleDeg - 90) * Math.PI / 180; // -90 pour orienter le 0° vers le haut
-
-          // longueur du trait, proportionnelle (max ~ radius)
+          const angleRad = (angleDeg - 90) * Math.PI / 180;
           const speed = parseFloat(data.wind_speedKts) || 0;
-          const maxLength = radius;
-          const length = Math.min(speed * 5, maxLength); // facteur arbitraire pour visibilité
-
+          const length = Math.min(speed * 5, radius);
           const xEnd = cx + length * Math.cos(angleRad);
           const yEnd = cy + length * Math.sin(angleRad);
 
@@ -100,9 +97,40 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
           ctx.strokeStyle = 'red';
           ctx.lineWidth = 3;
           ctx.stroke();
+
+          // --- Graphe de vitesse sol ---
+          const graph = document.getElementById('speedGraph');
+          const gctx = graph.getContext('2d');
+          const newSpeed = parseFloat(data.ground_speedKts) || 0;
+
+          speedHistory.push(newSpeed);
+          if (speedHistory.length > 60) speedHistory.shift();
+
+          gctx.clearRect(0, 0, graph.width, graph.height);
+
+          // Axe horizontal
+          gctx.beginPath();
+          gctx.moveTo(0, graph.height - 1);
+          gctx.lineTo(graph.width, graph.height - 1);
+          gctx.strokeStyle = '#ccc';
+          gctx.stroke();
+
+          // Courbe
+          const maxSpeed = 20; // ajustable
+          gctx.beginPath();
+          for (let i = 0; i < speedHistory.length; i++) {
+            const x = (i / speedHistory.length) * graph.width;
+            const y = graph.height - (speedHistory[i] / maxSpeed) * graph.height;
+            if (i === 0) gctx.moveTo(x, y);
+            else gctx.lineTo(x, y);
+          }
+          gctx.strokeStyle = 'blue';
+          gctx.lineWidth = 2;
+          gctx.stroke();
         })
         .catch(err => console.error(err));
     }
+
     setInterval(updateData, 1000);
     window.onload = updateData;
   </script>
@@ -127,6 +155,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       <tr><td class="label">Vitesse sol:</td><td><span id="ground_speedKts"></span> kt</td></tr>
       <tr><td class="label">Cap:</td><td><span id="ground_course"></span>°</td></tr>
     </table>
+    <canvas id="speedGraph" width="300" height="100"></canvas>
   </div>
 
   <div class="card">
