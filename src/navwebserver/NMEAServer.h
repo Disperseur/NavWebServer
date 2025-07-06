@@ -1,5 +1,5 @@
-#ifndef SERVER_H
-#define SERVER_H
+#ifndef NMEASERVER_H
+#define NMEASERVER_H
 
 #include "Arduino.h"
 #include <SPI.h>
@@ -11,5 +11,8 @@
 void sendHTML(WiFiClient &client);
 void sendJSON(Nmea &bateau, WiFiClient &client);
 void sendNotFound(WiFiClient &client);
+
+
+
 
 #endif

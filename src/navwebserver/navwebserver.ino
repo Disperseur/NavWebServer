@@ -1,10 +1,7 @@
 #include "NMEA.h"
-#include "server.h"
+#include "NMEAServer.h"
 
 
-void sendHTML(WiFiClient &client);
-void sendJSON(WiFiClient &client);
-void sendNotFound(WiFiClient &client);
 
 Nmea bateau;
 String nmea_msg("");

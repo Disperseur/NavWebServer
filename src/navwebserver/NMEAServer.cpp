@@ -1,4 +1,4 @@
-#include "server.h"
+#include "NMEAServer.h"
 
 void sendHTML(WiFiClient &client) {
   client.println("HTTP/1.1 200 OK");
