@@ -51,6 +51,11 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       color: #666;
       margin-top: 10px;
     }
+
+    #windCanvas {
+      display: block;
+      margin: 0 auto;
+    }
   </style>
   <script>
     function updateData() {
@@ -61,6 +66,40 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
             const el = document.getElementById(key);
             if (el) el.textContent = data[key];
           }
+
+          // Dessin du vent
+          const canvas = document.getElementById('windCanvas');
+          const ctx = canvas.getContext('2d');
+          const cx = canvas.width / 2;
+          const cy = canvas.height / 2;
+          const radius = 80; // rayon du cercle
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          // Cercle
+          ctx.beginPath();
+          ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+          ctx.strokeStyle = '#333';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          // Trait = aiguille du vent
+          const angleDeg = parseFloat(data.wind_angle) || 0;
+          const angleRad = (angleDeg - 90) * Math.PI / 180; // -90 pour orienter le 0° vers le haut
+
+          // longueur du trait, proportionnelle (max ~ radius)
+          const speed = parseFloat(data.wind_speedKts) || 0;
+          const maxLength = radius;
+          const length = Math.min(speed * 5, maxLength); // facteur arbitraire pour visibilité
+
+          const xEnd = cx + length * Math.cos(angleRad);
+          const yEnd = cy + length * Math.sin(angleRad);
+
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.lineTo(xEnd, yEnd);
+          ctx.strokeStyle = 'red';
+          ctx.lineWidth = 3;
+          ctx.stroke();
         })
         .catch(err => console.error(err));
     }
@@ -102,9 +141,10 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
   <div class="card">
     <h2>Air</h2>
     <table>
-      <tr><td class="label">Origine du vent:</td><td><span id="wind_angle"></span>°</td></tr>
-      <tr><td class="label">Vitesse du vent:</td><td><span id="wind_speedKts"></span> kt</td></tr>
+      <tr><td class="label">Origine du vent (°):</td><td><span id="wind_angle"></span></td></tr>
+      <tr><td class="label">Vitesse du vent (kts):</td><td><span id="wind_speedKts"></span></td></tr>
     </table>
+    <canvas id="windCanvas" width="200" height="200"></canvas>
   </div>
 
   <footer>
