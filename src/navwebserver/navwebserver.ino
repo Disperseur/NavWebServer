@@ -101,8 +101,6 @@ void sendJSON(WiFiClient &client) {
   json += "\"running_time\":" + String(bateau.get_running_time()) + ",";
   json += "\"ground_time\":\"" + bateau.get_ground_time() + "\",";
   json += "\"ground_date\":\"" + bateau.get_ground_date() + "\",";
-  json += "\"wind_sensorStatus\":\"" + String(bateau.get_wind_sensorStatus()) + "\",";
-  json += "\"ground_sensorStatus\":\"" + String(bateau.get_ground_sensorStatus()) + "\",";
   json += "\"ground_latitude\":\"" + bateau.get_ground_latitude() + "\",";
   json += "\"ground_latDir\":\"" + String(bateau.get_ground_latDir()) + "\",";
   json += "\"ground_longitude\":\"" + bateau.get_ground_longitude() + "\",";

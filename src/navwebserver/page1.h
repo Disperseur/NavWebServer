@@ -29,8 +29,6 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
   <p>Running Time: <span id="running_time"></span></p>
   <p>Ground Time: <span id="ground_time"></span></p>
   <p>Ground Date: <span id="ground_date"></span></p>
-  <p>Wind Sensor Status: <span id="wind_sensorStatus"></span></p>
-  <p>Ground Sensor Status: <span id="ground_sensorStatus"></span></p>
   <p>Latitude: <span id="ground_latitude"></span> <span id="ground_latDir"></span></p>
   <p>Longitude: <span id="ground_longitude"></span> <span id="ground_longDir"></span></p>
   <p>Ground Speed (kts): <span id="ground_speedKts"></span></p>
