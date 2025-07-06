@@ -72,7 +72,6 @@ void NMEAServer::sendJSON(Nmea &bateau, WiFiClient &client) {
   json += "\"water_speedKnots\":" + String(bateau.get_water_speedKnots(), 1) + ",";
   json += "\"water_temperatureCelsius\":" + String(bateau.get_water_temperatureCelsius(), 1) + ",";
   json += "\"wind_angle\":" + String(bateau.get_wind_angle(), 1) + ",";
-  json += "\"wind_angleReference\":\"" + String(bateau.get_wind_angleReference()) + "\",";
   json += "\"wind_speedKts\":" + String(bateau.get_wind_speedKts(), 1);
   json += "}";
 
