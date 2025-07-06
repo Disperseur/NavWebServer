@@ -6,3 +6,9 @@ Serveur local sur Arduino Giga R1 Wifi pour affichage des données de navigation
 ## TODO
 
 - Attention aux unités ... es ce que changer la config sur un instrument change l'unité retournée par le mux ? a prendre en charge ...
+
+
+
+## Choix / questions
+- Tout en int ou juste à l'affichage ?
+- Moyenne : sur une durée fixe ou sur un nombre de mesures fixe ?
