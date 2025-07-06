@@ -68,7 +68,7 @@ void setup() {
   }
 
   // wait 10 seconds for connection:
-  delay(10000);
+  // delay(10000);
 
   // start the web server on port 80
   server.begin();
