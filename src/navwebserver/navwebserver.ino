@@ -29,26 +29,28 @@ void setup() {
   server.init("Saint-Lou_Wifi", "123456789");
 }
 
+String incomingLine = "";  // Buffer pour construire une ligne complète
+
 void loop() {
-  // Parse NMEA depuis USBHost
+  // Lire caractère par caractère
   while (hser.available()) {
-    buffer[i % BUFFER_SIZE] = hser.read();
-    i++;
+    char c = hser.read();
+
+    if (c == '\n') {  // Fin de trame NMEA
+      incomingLine.trim(); // enlève '\r' ou espaces
+
+      if (incomingLine.length() > 0) {
+        // On a une trame complète, on la parse
+        bateau.parse(incomingLine);
+        // bateau.printData(); // si tu veux
+      }
+
+      incomingLine = ""; // Reset pour la prochaine trame
+    } else {
+      incomingLine += c; // Ajoute le caractère au buffer
+    }
   }
 
-  String msg = String(buffer);
-  Serial.print(msg);
-  memset(buffer, 0, BUFFER_SIZE);
-  i = 0;
-
-  bateau.parse(msg);
-  // bateau.printData();
-
-  // while (Serial1.available()) {
-  //   String msg = Serial1.readStringUntil('\n');
-  //   bateau.parse(msg);
-  //   bateau.printData();
-  // }
-
+  // Gérer le serveur web à chaque loop
   server.handleClient(bateau);
 }
