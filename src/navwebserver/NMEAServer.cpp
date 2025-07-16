@@ -29,11 +29,17 @@ void NMEAServer::init(const char* ssid, const char* password) {
 void NMEAServer::handleClient(Nmea &bateau) {
   WiFiClient client = server.available();
   if (client) {
+
+#ifdef DEBUG_SERVER
     Serial.println("Client connecté");
+#endif
 
     String request = client.readStringUntil('\r');
     client.read(); // consommer le '\n'
+
+#ifdef DEBUG_SERVER
     Serial.println("Request: " + request);
+#endif
 
     if (request.indexOf("GET / ") >= 0) {
       sendHTML(client);
@@ -45,7 +51,10 @@ void NMEAServer::handleClient(Nmea &bateau) {
 
     delay(1);
     client.stop();
+
+#ifdef DEBUG_SERVER
     Serial.println("Client déconnecté");
+#endif
   }
 }
 

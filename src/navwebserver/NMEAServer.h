@@ -6,6 +6,8 @@
 #include "NMEA.h"
 #include "page1.h"
 
+// #define DEBUG_SERVER
+
 class NMEAServer {
   public:
     NMEAServer();

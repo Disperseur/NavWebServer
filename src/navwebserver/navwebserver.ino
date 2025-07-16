@@ -2,18 +2,15 @@
 #include "NMEAServer.h"
 #include <USBHostSerialDevice.h>
 
-#define BUFFER_SIZE 500
 
 USBHostSerialDevice hser(true);
-char buffer[BUFFER_SIZE];
-int i = 0;
+
 
 Nmea bateau;
 NMEAServer server;
 
 void setup() {
   Serial.begin(460800);
-  // Serial1.begin(460800);
   
 
   // Enable the USBHost
@@ -32,7 +29,6 @@ void setup() {
 String incomingLine = "";  // Buffer pour construire une ligne complète
 
 void loop() {
-  // Lire caractère par caractère
   while (hser.available()) {
     char c = hser.read();
 
@@ -41,6 +37,9 @@ void loop() {
 
       if (incomingLine.length() > 0) {
         // On a une trame complète, on la parse
+        Serial.print("Trame recue : ");
+        Serial.println(incomingLine);
+
         bateau.parse(incomingLine);
         // bateau.printData(); // si tu veux
       }
