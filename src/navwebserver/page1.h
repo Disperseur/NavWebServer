@@ -155,7 +155,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       <tr><td class="label">Vitesse sol:</td><td><span id="ground_speedKts"></span> kt</td></tr>
       <tr><td class="label">Cap:</td><td><span id="ground_course"></span>°</td></tr>
     </table>
-    <canvas id="speedGraph" width="300" height="100"></canvas>
+    <canvas id="speedGraph" width="600" height="100"></canvas>
   </div>
 
   <div class="card">
@@ -170,8 +170,8 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
   <div class="card">
     <h2>Air</h2>
     <table>
-      <tr><td class="label">Origine du vent (°):</td><td><span id="wind_angle"></span></td></tr>
-      <tr><td class="label">Vitesse du vent (kts):</td><td><span id="wind_speedKts"></span></td></tr>
+      <tr><td class="label">Origine du vent:</td><td><span id="wind_angle"></span>°</td></tr>
+      <tr><td class="label">Vitesse du vent (kts):</td><td><span id="wind_speedKts"></span> kt</td></tr>
     </table>
     <canvas id="windCanvas" width="200" height="200"></canvas>
   </div>

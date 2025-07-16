@@ -1,7 +1,7 @@
 import serial
 from time import sleep
 
-port = serial.Serial("COM15", 460800)
+port = serial.Serial("COM17", 460800)
 
 
 file_log = open("scripts/log.txt", 'r')
@@ -12,4 +12,4 @@ file_log.close()
 while(True):
     for i in range(len(file_log_list)):
         port.write(file_log_list[i].encode())
-        sleep(0.2)
+        sleep(0.5)
