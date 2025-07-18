@@ -3,8 +3,20 @@
 // fonctions utilisateur
 
 
+String millisToTimeString(unsigned long ms) {
+  unsigned long totalSeconds = ms / 1000;
+  unsigned int hours = totalSeconds / 3600;
+  unsigned int minutes = (totalSeconds % 3600) / 60;
+  unsigned int seconds = totalSeconds % 60;
+
+  // Formater avec des zéros devant si nécessaire
+  char buffer[9]; // "HH:MM:SS"
+  sprintf(buffer, "%02u:%02u:%02u", hours, minutes, seconds);
+  return String(buffer);
+}
+
 int Nmea::parse(String nmea) {
-  running_time = (millis() / 1000);
+  running_time = millisToTimeString(millis());
 
 
   if(nmea.indexOf("GPRMC") != -1) {
@@ -137,7 +149,7 @@ int Nmea::set_wind_speedKts(int s) {
 
 
 
-unsigned long Nmea::get_running_time(void) {
+String Nmea::get_running_time(void) {
   return running_time;
 }
 

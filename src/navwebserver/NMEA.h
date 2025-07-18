@@ -8,6 +8,8 @@
 #include "VWVHW.h"
 
 
+String millisToTimeString(unsigned long ms);
+
 class Nmea
 {
 public:  
@@ -33,7 +35,7 @@ public:
   int set_wind_speedKts(int s);
   int set_wind_speedUnit(char u);
 
-  unsigned long get_running_time(void);
+  String get_running_time(void);
   String get_ground_time(void);
   String get_ground_date(void);
   char get_wind_sensorStatus(void);
@@ -55,7 +57,7 @@ public:
   
 
 private:
-  unsigned long running_time;
+  String running_time;
 
   String  ground_time;
   String  ground_date;

@@ -141,7 +141,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
   <div class="card">
     <h2>Horloge</h2>
     <table>
-      <tr><td class="label">Durée de navigation:</td><td><span id="running_time"></span> s</td></tr>
+      <tr><td class="label">Durée de navigation:</td><td><span id="running_time"></span></td></tr>
       <tr><td class="label">Date:</td><td><span id="ground_date"></span></td></tr>
       <tr><td class="label">Heure:</td><td><span id="ground_time"></span></td></tr>
     </table>

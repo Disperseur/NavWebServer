@@ -68,7 +68,7 @@ void NMEAServer::sendHTML(WiFiClient &client) {
 
 void NMEAServer::sendJSON(Nmea &bateau, WiFiClient &client) {
   String json = "{";
-  json += "\"running_time\":" + String(bateau.get_running_time()) + ",";
+  json += "\"running_time\":\"" + bateau.get_running_time() + "\",";
   json += "\"ground_time\":\"" + bateau.get_ground_time() + "\",";
   json += "\"ground_date\":\"" + bateau.get_ground_date() + "\",";
   json += "\"ground_latitude\":\"" + bateau.get_ground_latitude() + "\",";
