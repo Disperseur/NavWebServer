@@ -98,8 +98,8 @@ GPRMC_Data parseGPRMC(String nmea) {
   data.ground_latDir    =     fields[4].length() > 0 ? fields[4].charAt(0) : ' ';
   data.ground_longitude =     formatNMEACoordinate(fields[5], LON);
   data.ground_lonDir    =     fields[6].length() > 0 ? fields[6].charAt(0) : ' ';
-  data.ground_speedKts     =  round(fields[7].toFloat());
-  data.ground_course    =     round(fields[8].toFloat());
+  data.ground_speedKts     =  fields[7].toFloat();
+  data.ground_course    =     fields[8].toFloat();
   data.ground_date      =     formatNMEADate(fields[9]);
 
   return data;
@@ -129,8 +129,8 @@ GPRMC_Data parseGPRMC(String nmea) {
 //       case 4: data.ground_latDir = field.length() > 0 ? field.charAt(0) : ' '; break;
 //       case 5: rawLon = field; break;
 //       case 6: data.ground_lonDir = field.length() > 0 ? field.charAt(0) : ' '; break;
-//       case 7: data.ground_speedKts = round(field.toFloat()); break; // field.round(field.toFloat()); break;
-//       case 8: data.ground_course = round(field.toFloat()); break;
+//       case 7: data.ground_speedKts = field.toFloat(); break; // field.field.toFloat(); break;
+//       case 8: data.ground_course = field.toFloat(); break;
 //       case 9: rawDate = field; break;
 //     }
 

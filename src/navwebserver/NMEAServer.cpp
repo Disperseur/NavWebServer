@@ -75,13 +75,13 @@ void NMEAServer::sendJSON(Nmea &bateau, WiFiClient &client) {
   json += "\"ground_latDir\":\"" + String(bateau.get_ground_latDir()) + "\",";
   json += "\"ground_longitude\":\"" + bateau.get_ground_longitude() + "\",";
   json += "\"ground_longDir\":\"" + String(bateau.get_ground_longDir()) + "\",";
-  json += "\"ground_speedKts\":" + String(bateau.get_ground_speedKts()) + ",";
-  json += "\"ground_course\":" + String(bateau.get_ground_course()) + ",";
-  json += "\"water_depthMeters\":" + String(bateau.get_water_depthMeters()) + ",";
-  json += "\"water_speedKnots\":" + String(bateau.get_water_speedKnots()) + ",";
-  json += "\"water_temperatureCelsius\":" + String(bateau.get_water_temperatureCelsius()) + ",";
-  json += "\"wind_angle\":" + String(bateau.get_wind_angle()) + ",";
-  json += "\"wind_speedKts\":" + String(bateau.get_wind_speedKts());
+  json += "\"ground_speedKts\":" + String(bateau.get_ground_speedKts(), 1) + ",";
+  json += "\"ground_course\":" + String(bateau.get_ground_course(), 0) + ",";
+  json += "\"water_depthMeters\":" + String(bateau.get_water_depthMeters(), 1) + ",";
+  json += "\"water_speedKnots\":" + String(bateau.get_water_speedKnots(), 1) + ",";
+  json += "\"water_temperatureCelsius\":" + String(bateau.get_water_temperatureCelsius(), 0) + ",";
+  json += "\"wind_angle\":" + String(bateau.get_wind_angle(), 0) + ",";
+  json += "\"wind_speedKts\":" + String(bateau.get_wind_speedKts(), 0);
   json += "}";
 
   client.println("HTTP/1.1 200 OK");

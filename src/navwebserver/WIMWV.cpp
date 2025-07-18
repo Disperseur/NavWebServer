@@ -27,9 +27,9 @@ WIMWV_Data parseWIMWV(String nmea) {
 
   if (count < 6) return data;
 
-  data.wind_angle =           round(fields[1].toFloat());
+  data.wind_angle =           fields[1].toFloat();
   data.wind_angleReference =  fields[2].length() > 0 ? fields[2].charAt(0) : ' ';
-  data.wind_speedKts =        round(fields[3].toFloat());
+  data.wind_speedKts =        fields[3].toFloat();
   data.wind_speedUnit =       fields[4].length() > 0 ? fields[4].charAt(0) : ' ';
   data.wind_sensorStatus =    fields[5].length() > 0 ? fields[5].charAt(0) : ' ';
 
@@ -52,9 +52,9 @@ WIMWV_Data parseWIMWV(String nmea) {
 //     lastIndex = index + 1;
 
 //     switch (fieldIndex) {
-//       case 1: data.wind_angle = round(field.toFloat()); break;
+//       case 1: data.wind_angle = field.toFloat(); break;
 //       case 2: data.wind_angleReference = field.length() > 0 ? field.charAt(0) : ' '; break;
-//       case 3: data.wind_speedKts = round(field.toFloat()); break;
+//       case 3: data.wind_speedKts = field.toFloat(); break;
 //       case 4: data.wind_speedUnit = field.length() > 0 ? field.charAt(0) : ' '; break;
 //       case 5: data.wind_sensorStatus = field.length() > 0 ? field.charAt(0) : ' '; break;
 //     }

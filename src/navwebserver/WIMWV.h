@@ -4,9 +4,9 @@
 #include <Arduino.h>
 
 struct WIMWV_Data {
-  int   wind_angle;
+  float   wind_angle;
   char    wind_angleReference;     // R/T
-  int   wind_speedKts;
+  float   wind_speedKts;
   char    wind_speedUnit; // N/M/K
   char    wind_sensorStatus;        // A/V
 };

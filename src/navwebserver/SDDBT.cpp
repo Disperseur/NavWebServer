@@ -31,9 +31,9 @@ SDDBT_Data parseSDDBT(String nmea) {
 
   if (count < 6) return data;
 
-  data.water_depthFeet =    round(fields[1].toFloat());
-  data.water_depthMeters =  round(fields[3].toFloat());
-  data.water_depthFathoms = round(fields[5].toFloat());
+  data.water_depthFeet =    fields[1].toFloat();
+  data.water_depthMeters =  fields[3].toFloat();
+  data.water_depthFathoms = fields[5].toFloat();
 
   return data;
 }
@@ -54,9 +54,9 @@ SDDBT_Data parseSDDBT(String nmea) {
 //     lastIndex = index + 1;
 
 //     switch (fieldIndex) {
-//       case 1: data.water_depthFeet = round(field.toFloat()); break;
-//       case 3: data.water_depthMeters = round(field.toFloat()); break;
-//       case 5: data.water_depthFathoms = round(field.toFloat()); break;
+//       case 1: data.water_depthFeet = field.toFloat(); break;
+//       case 3: data.water_depthMeters = field.toFloat(); break;
+//       case 5: data.water_depthFathoms = field.toFloat(); break;
 //     }
 
 //     fieldIndex++;

@@ -114,27 +114,27 @@ int Nmea::set_ground_longDir(char lonD) {
   ground_longDir = lonD;
 }
 
-int Nmea::set_ground_speedKts(int s) {
+int Nmea::set_ground_speedKts(float s) {
   ground_speedKts = s;
 }
 
-int Nmea::set_ground_course(int c) {
+int Nmea::set_ground_course(float c) {
   ground_course = c;
 }
 
-int Nmea::set_water_depthMeters(int d) {
+int Nmea::set_water_depthMeters(float d) {
   water_depthMeters = d;
 }
 
-int Nmea::set_water_speedKnots(int s) {
+int Nmea::set_water_speedKnots(float s) {
   water_speedKnots = s;
 }
 
-int Nmea::set_water_temperatureCelsius(int t) {
+int Nmea::set_water_temperatureCelsius(float t) {
   water_temperatureCelsius = t;
 }
 
-int Nmea::set_wind_angle(int a) {
+int Nmea::set_wind_angle(float a) {
   wind_angle = a;
 }
 
@@ -142,7 +142,7 @@ int Nmea::set_wind_angleReference(char ar) {
   wind_angleReference = ar;
 }
 
-int Nmea::set_wind_speedKts(int s) {
+int Nmea::set_wind_speedKts(float s) {
   wind_speedKts = s;
 }
 
@@ -185,27 +185,27 @@ char Nmea::get_ground_longDir(void) {
   return ground_longDir;
 }
 
-int Nmea::get_ground_speedKts(void) {
+float Nmea::get_ground_speedKts(void) {
   return ground_speedKts;
 }
 
-int Nmea::get_ground_course(void) {
+float Nmea::get_ground_course(void) {
   return ground_course;
 }
 
-int Nmea::get_water_depthMeters(void) {
+float Nmea::get_water_depthMeters(void) {
   return water_depthMeters;
 }
 
-int Nmea::get_water_speedKnots(void) {
+float Nmea::get_water_speedKnots(void) {
   return water_speedKnots;
 }
 
-int Nmea::get_water_temperatureCelsius(void) {
+float Nmea::get_water_temperatureCelsius(void) {
   return water_temperatureCelsius;
 }
 
-int Nmea::get_wind_angle(void) {
+float Nmea::get_wind_angle(void) {
   return wind_angle;
 }
 
@@ -213,6 +213,6 @@ char Nmea::get_wind_angleReference(void) {
   return wind_angleReference;
 }
 
-int Nmea::get_wind_speedKts(void) {
+float Nmea::get_wind_speedKts(void) {
   return wind_speedKts;
 }

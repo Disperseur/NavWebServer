@@ -148,7 +148,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
   </div>
 
   <div class="card">
-    <h2>Terre</h2>
+    <h2>Route fond</h2>
     <table>
       <tr><td class="label">Latitude:</td><td><span id="ground_latitude"></span> <span id="ground_latDir"></span></td></tr>
       <tr><td class="label">Longitude:</td><td><span id="ground_longitude"></span> <span id="ground_longDir"></span></td></tr>
@@ -159,7 +159,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
   </div>
 
   <div class="card">
-    <h2>Mer</h2>
+    <h2>Route surface</h2>
     <table>
       <tr><td class="label">Profondeur sous quille:</td><td><span id="water_depthMeters"></span> m</td></tr>
       <tr><td class="label">Vitesse dans l'eau:</td><td><span id="water_speedKnots"></span> kt</td></tr>
@@ -168,7 +168,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
   </div>
 
   <div class="card">
-    <h2>Air</h2>
+    <h2>Vent</h2>
     <table>
       <tr><td class="label">Origine du vent:</td><td><span id="wind_angle"></span>°</td></tr>
       <tr><td class="label">Vitesse du vent (kts):</td><td><span id="wind_speedKts"></span> kt</td></tr>

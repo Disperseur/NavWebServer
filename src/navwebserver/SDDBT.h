@@ -4,9 +4,9 @@
 #include <Arduino.h>
 
 struct SDDBT_Data {
-  int water_depthFeet;
-  int water_depthMeters;
-  int water_depthFathoms;
+  float water_depthFeet;
+  float water_depthMeters;
+  float water_depthFathoms;
 };
 
 SDDBT_Data parseSDDBT(String nmea);

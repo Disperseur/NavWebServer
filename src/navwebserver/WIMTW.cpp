@@ -28,7 +28,7 @@ WIMTW_Data parseWIMTW(String nmea) {
 
   if (count < 3) return data;
 
-  data.water_temperatureCelsius = round(fields[1].toFloat());
+  data.water_temperatureCelsius = fields[1].toFloat();
   data.water_temperatureUnit = fields[2].length() > 0 ? fields[2].charAt(0) : ' ';
 
   return data;
@@ -50,7 +50,7 @@ WIMTW_Data parseWIMTW(String nmea) {
 //     lastIndex = index + 1;
 
 //     switch (fieldIndex) {
-//       case 1: data.water_temperatureCelsius = round(field.toFloat()); break;
+//       case 1: data.water_temperatureCelsius = field.toFloat(); break;
 //       case 2: data.water_temperatureUnit = field.length() > 0 ? field.charAt(0) : ' '; break;
 //     }
 

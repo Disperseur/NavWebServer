@@ -4,9 +4,9 @@
 #include <Arduino.h>
 
 struct VWVHW_Data {
-  int   water_speedKnots;
+  float   water_speedKnots;
   char    water_speedKnotsUnit;
-  int   water_speedKmh;
+  float   water_speedKmh;
   char    water_speedKmhUnit;
 };
 
