@@ -152,8 +152,8 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
     <table>
       <tr><td class="label">Latitude:</td><td><span id="ground_latitude"></span> <span id="ground_latDir"></span></td></tr>
       <tr><td class="label">Longitude:</td><td><span id="ground_longitude"></span> <span id="ground_longDir"></span></td></tr>
-      <tr><td class="label">Vitesse sol:</td><td><span id="ground_speedKts"></span> kt</td></tr>
       <tr><td class="label">Cap:</td><td><span id="ground_course"></span>°</td></tr>
+      <tr><td class="label">Vitesse sol:</td><td><span id="ground_speedKts"></span> kt</td></tr>
     </table>
     <canvas id="speedGraph" width="600" height="100"></canvas>
   </div>

@@ -25,6 +25,3 @@ calcul de distance parcourue
 
 durée de nav en heure minutes
 
-
-Terre -> Route fond
-Mer -> route surface
