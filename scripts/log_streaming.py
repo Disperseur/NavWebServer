@@ -11,5 +11,6 @@ file_log.close()
 
 while(True):
     for i in range(len(file_log_list)):
+        print(file_log_list[i].encode())
         port.write(file_log_list[i].encode())
-        sleep(0.5)
+        sleep(0.1)

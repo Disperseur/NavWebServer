@@ -7,7 +7,7 @@ Serveur local sur Arduino Giga R1 Wifi pour affichage des données de navigation
 
 - Attention aux unités ... es ce que changer la config sur un instrument change l'unité retournée par le mux ? a prendre en charge ...
 
-
+- tout repasser en float
 
 ## Choix / questions
 - Tout en int ou juste à l'affichage ?
