@@ -2,6 +2,7 @@
 #include "NMEAServer.h"
 #include <USBHostSerialDevice.h>
 
+// #define DEBUG_MAIN
 
 USBHostSerialDevice hser(true);
 
@@ -37,8 +38,11 @@ void loop() {
 
       if (incomingLine.length() > 0) {
         // On a une trame complète, on la parse
+
+#ifdef DEBUG_MAIN
         Serial.print("Trame recue : ");
         Serial.println(incomingLine);
+#endif
 
         bateau.parse(incomingLine);
         // bateau.printData(); // si tu veux
