@@ -56,4 +56,6 @@ void loop() {
 
   // Gérer le serveur web à chaque loop
   server.handleClient(bateau);
+
+  delay(50);
 }

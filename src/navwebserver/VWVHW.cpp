@@ -4,7 +4,8 @@ VWVHW_Data parseVWVHW(String nmea) {
   VWVHW_Data data;
 
   if (!nmea.startsWith("$VWVHW")) {
-    Serial.println("Erreur: pas une phrase VWVHW");
+    Serial.print(nmea);
+    Serial.println(" : Erreur: pas une phrase VWVHW");
     return data;
   }
 

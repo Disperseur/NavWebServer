@@ -47,7 +47,8 @@ GPRMC_Data parseGPRMC(String nmea) {
   GPRMC_Data data;
 
   if (!nmea.startsWith("$GPRMC")) {
-    Serial.println("Erreur: pas une phrase GPRMC");
+    Serial.print(nmea);
+    Serial.println(" : Erreur: pas une phrase GPRMC");
     return data;
   }
 

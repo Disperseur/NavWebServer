@@ -6,7 +6,8 @@ WIMTW_Data parseWIMTW(String nmea) {
   WIMTW_Data data;
 
   if (!nmea.startsWith("$WIMTW")) {
-    Serial.println("Erreur: pas une phrase WIMTW");
+    Serial.print(nmea);
+    Serial.println(" : Erreur: pas une phrase WIMTW");
     return data;
   }
 

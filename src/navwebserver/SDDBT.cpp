@@ -7,7 +7,8 @@ SDDBT_Data parseSDDBT(String nmea) {
   SDDBT_Data data;
 
   if (!nmea.startsWith("$SDDBT")) {
-    Serial.println("Erreur: pas une phrase SDDBT");
+    Serial.print(nmea);
+    Serial.println(" : Erreur: pas une phrase SDDBT");
     return data;
   }
 

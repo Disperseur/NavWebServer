@@ -5,7 +5,8 @@ WIMWV_Data parseWIMWV(String nmea) {
   WIMWV_Data data;
 
   if (!nmea.startsWith("$WIMWV")) {
-    Serial.println("Erreur: pas une phrase WIMWV");
+    Serial.print(nmea);
+    Serial.println(" : Erreur: pas une phrase WIMWV");
     return data;
   }
 
