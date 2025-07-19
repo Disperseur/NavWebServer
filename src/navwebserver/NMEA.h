@@ -1,6 +1,8 @@
 #ifndef NMEA_H
 #define NMEA_H
 
+#include "config.h"
+
 #include "GPRMC.h"
 #include "SDDBT.h"
 #include "WIMWV.h"

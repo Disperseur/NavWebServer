@@ -2,6 +2,8 @@
 #define VWVHW_H
 
 #include <Arduino.h>
+#include "config.h"
+
 
 struct VWVHW_Data {
   float   water_speedKts;

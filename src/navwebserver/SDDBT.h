@@ -2,6 +2,8 @@
 #define SDDBT_H
 
 #include <Arduino.h>
+#include "config.h"
+
 
 struct SDDBT_Data {
   float water_depthFeet;

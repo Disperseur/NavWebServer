@@ -2,6 +2,8 @@
 #define WIMWV_H
 
 #include <Arduino.h>
+#include "config.h"
+
 
 struct WIMWV_Data {
   float   wind_angle;

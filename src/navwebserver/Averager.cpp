@@ -36,15 +36,22 @@ int Averager::computeAverage() {
 
   float sum = 0.0;
 
+#ifdef DEBUG_AVERAGER
   Serial.print("Samples : [");
+#endif
 
   for (int i = 0; i < count; ++i) {
     sum += samples[i].value;
+
+#ifdef DEBUG_AVERAGER
     Serial.print(samples[i].value);
     Serial.print(" ");
+#endif
   }
 
+#ifdef DEBUG_AVERAGER
   Serial.println("]");
+#endif
 
   avg = sum / count;
   //return sum / count;

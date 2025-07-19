@@ -1,20 +1,27 @@
 #include "NMEA.h"
 #include "NMEAServer.h"
+#include "config.h"
 #include <USBHostSerialDevice.h>
 
-
-
-mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
-
-USBHostSerialDevice hser(true);
+using namespace rtos;
 
 
 Nmea bateau;
 NMEAServer server;
+Thread ledThread(osPriorityLow);
+mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
+USBHostSerialDevice hser(true);
+
+
+
+
+void ledThreadEntryPoint();
+String get_nmea_from_usbhost(USBHostSerialDevice &dev);
+
+
 
 void setup() {
   Serial.begin(460800);
-  
 
   // Enable the USBHost
   pinMode(PA_15, OUTPUT);
@@ -27,32 +34,17 @@ void setup() {
   hser.begin(460800);
 
   server.init("Saint-Lou_Wifi", "123456789"); //SSID, PASSWORD
+
+  ledThread.start(ledThreadEntryPoint); // status led start
 }
 
-String incomingLine = "";  // Buffer pour construire une ligne complète
+
+
 
 void loop() {
-  while (hser.available()) {
-    char c = hser.read();
+  bateau.parse(get_nmea_from_usbhost(hser));
 
-    if (c == '\n') {  // Fin de trame NMEA
-      incomingLine.trim(); // enlève '\r' ou espaces
-
-      if (incomingLine.length() > 0) {
-        // On a une trame complète, on la parse
-        bateau.parse(incomingLine);
-        // bateau.printData(); // si tu veux     
-      }
-
-      incomingLine = ""; // Reset pour la prochaine trame
-    } else {
-      incomingLine += c; // Ajoute le caractère au buffer
-    }
-  }
-
-  // Gérer le serveur web à chaque loop
   server.handleClient(bateau);
-
 
   int mcuTemp = __HAL_ADC_CALC_TEMPERATURE (3300, mcuADCTemp.read_u16(), ADC_RESOLUTION_16B);
 
@@ -61,4 +53,45 @@ void loop() {
   Serial.println(" *C");
 
   delay(100);
+}
+
+
+
+void ledThreadEntryPoint() {
+  pinMode(LED_RED, OUTPUT);
+  pinMode(LED_GREEN, OUTPUT);
+  pinMode(LED_BLUE, OUTPUT);
+
+  digitalWrite(LED_RED, HIGH);
+  digitalWrite(LED_BLUE, HIGH);
+
+  while(1) {
+    digitalWrite(LED_GREEN, LOW);
+    delay(500);
+    digitalWrite(LED_GREEN, HIGH);
+    delay(500);
+  }
+}
+
+
+
+String get_nmea_from_usbhost(USBHostSerialDevice &dev) {
+  String incomingLine = "";  // Buffer pour construire une ligne complète
+
+  while (dev.available()) {
+    char c = dev.read();
+
+    if (c == '\n') {  // Fin de trame NMEA
+      incomingLine.trim(); // enlève '\r' ou espaces
+
+      if (incomingLine.length() > 0) {
+        // On a une trame complète, on la revoie
+        return incomingLine;
+      }
+
+      incomingLine = ""; // Reset pour la prochaine trame
+    } else {
+      incomingLine += c; // Ajoute le caractère au buffer
+    }
+  }
 }

@@ -2,6 +2,7 @@
 #define AVERAGER_H
 
 #include <Arduino.h>
+#include "config.h"
 
 class Averager {
 public:

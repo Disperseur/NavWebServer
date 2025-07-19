@@ -2,6 +2,8 @@
 #define WIMTW_H
 
 #include <Arduino.h>
+#include "config.h"
+
 
 struct WIMTW_Data {
   float   water_temperatureCelsius;

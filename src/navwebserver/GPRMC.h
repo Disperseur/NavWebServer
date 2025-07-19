@@ -2,6 +2,7 @@
 #define GPRMC_H
 
 #include <Arduino.h>
+#include "config.h"
 
 
 typedef enum {LAT, LON} Coord_t;

@@ -5,6 +5,8 @@
 #include <WiFi.h>
 #include "NMEA.h"
 #include "page1.h"
+#include "config.h"
+
 
 // #define DEBUG_SERVER
 
