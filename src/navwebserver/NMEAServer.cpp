@@ -76,9 +76,11 @@ void NMEAServer::sendJSON(Nmea &bateau, WiFiClient &client) {
   json += "\"ground_longitude\":\"" + bateau.get_ground_longitude() + "\",";
   json += "\"ground_longDir\":\"" + String(bateau.get_ground_longDir()) + "\",";
   json += "\"ground_speedKts\":" + String(bateau.get_ground_speedKts(), 1) + ",";
+  json += "\"ground_speedKts_avg\":" + String(bateau.get_ground_speedKts_avg(), 1) + ",";
   json += "\"ground_course\":" + String(bateau.get_ground_course(), 0) + ",";
   json += "\"water_depthMeters\":" + String(bateau.get_water_depthMeters(), 1) + ",";
   json += "\"water_speedKnots\":" + String(bateau.get_water_speedKnots(), 1) + ",";
+  json += "\"water_speedKnots_avg\":" + String(bateau.get_water_speedKnots_avg(), 1) + ",";
   json += "\"water_temperatureCelsius\":" + String(bateau.get_water_temperatureCelsius(), 0) + ",";
   json += "\"wind_angle\":" + String(bateau.get_wind_angle(), 0) + ",";
   json += "\"wind_speedKts\":" + String(bateau.get_wind_speedKts(), 0);

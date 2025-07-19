@@ -15,6 +15,8 @@ String millisToTimeString(unsigned long ms);
 class Nmea
 {
 public:  
+  Nmea();
+
   int parse(String nmea);
   void printData(void);
 
@@ -62,6 +64,8 @@ public:
   float get_wind_speedKts(void);
   char get_wind_speedUnit(void);
 
+  float get_ground_speedKts_avg(void);
+  float get_water_speedKnots_avg(void);
   
 
 private:
@@ -89,7 +93,8 @@ private:
   float   wind_speedKts;
 
   // statistiques
-  //Averager ground_speedKts_avg;
+  Averager ground_speedKts_avg;
+  Averager water_speedKnots_avg;
 
 };
 

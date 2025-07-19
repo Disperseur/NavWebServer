@@ -38,14 +38,21 @@ void loop() {
 
       if (incomingLine.length() > 0) {
         // On a une trame complète, on la parse
+        bateau.parse(incomingLine);
+        // bateau.printData(); // si tu veux
 
 #ifdef DEBUG_MAIN
         Serial.print("Trame recue : ");
         Serial.println(incomingLine);
-#endif
+        Serial.println();
+        Serial.print("Ground speed avg 30min : ");
+        Serial.print(bateau.get_ground_speedKts_avg());
+        Serial.println(" kts");
 
-        bateau.parse(incomingLine);
-        // bateau.printData(); // si tu veux
+        Serial.print("Water speed avg 30min : ");
+        Serial.print(bateau.get_water_speedKnots_avg());
+        Serial.println(" kts");
+#endif        
       }
 
       incomingLine = ""; // Reset pour la prochaine trame

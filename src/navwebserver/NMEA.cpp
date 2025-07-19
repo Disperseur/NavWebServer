@@ -15,6 +15,15 @@ String millisToTimeString(unsigned long ms) {
   return String(buffer);
 }
 
+
+
+Nmea::Nmea()
+: ground_speedKts_avg(1800), water_speedKnots_avg(1800) {
+
+}
+
+
+
 int Nmea::parse(String nmea) {
   running_time = millisToTimeString(millis());
 
@@ -52,6 +61,8 @@ void Nmea::getGPRMCData(String nmea) {
   set_ground_speedKts(result.ground_speedKts);
   set_ground_course(result.ground_course);
   set_ground_date(result.ground_date);
+
+  ground_speedKts_avg.addSample(result.ground_time, result.ground_speedKts);
 }
 
 void Nmea::getSDDBTData(String nmea) {
@@ -62,6 +73,8 @@ void Nmea::getSDDBTData(String nmea) {
 void Nmea::getVWVHWData(String nmea) {
   VWVHW_Data result = parseVWVHW(nmea);
   set_water_speedKnots(result.water_speedKnots);
+
+  water_speedKnots_avg.addSample(ground_time, result.water_speedKnots);
 }
 
 void Nmea::getWIMTWData(String nmea) {
@@ -240,4 +253,15 @@ char Nmea::get_wind_angleReference(void) {
 
 float Nmea::get_wind_speedKts(void) {
   return wind_speedKts;
+}
+
+
+float Nmea::get_ground_speedKts_avg(void) {
+  Serial.println("get ground speed avg");
+  return ground_speedKts_avg.getAverage();
+}
+
+float Nmea::get_water_speedKnots_avg(void) {
+  Serial.println("get water speed avg");
+  return water_speedKnots_avg.getAverage();
 }

@@ -154,6 +154,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       <tr><td class="label">Longitude:</td><td><span id="ground_longitude"></span> <span id="ground_longDir"></span></td></tr>
       <tr><td class="label">Cap:</td><td><span id="ground_course"></span>°</td></tr>
       <tr><td class="label">Vitesse sol:</td><td><span id="ground_speedKts"></span> kt</td></tr>
+      <tr><td class="label">Vitesse moyenne sol sur 30min:</td><td><span id="ground_speedKts_avg"></span> kt</td></tr>
     </table>
     <canvas id="speedGraph" width="600" height="100"></canvas>
   </div>
@@ -163,6 +164,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
     <table>
       <tr><td class="label">Profondeur sous quille:</td><td><span id="water_depthMeters"></span> m</td></tr>
       <tr><td class="label">Vitesse dans l'eau:</td><td><span id="water_speedKnots"></span> kt</td></tr>
+      <tr><td class="label">Vitesse moyenne dans l'eau sur 30min:</td><td><span id="water_speedKnots_avg"></span> kt</td></tr>
       <tr><td class="label">Température de l'eau:</td><td><span id="water_temperatureCelsius"></span>°C</td></tr>
     </table>
   </div>

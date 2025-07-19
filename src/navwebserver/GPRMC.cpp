@@ -44,6 +44,8 @@ String formatNMEADate(String rawDate) {
 
 
 GPRMC_Data parseGPRMC(String nmea) {
+  // Serial.println("Parsing GPRMC phrase...");
+
   GPRMC_Data data;
 
   if (!nmea.startsWith("$GPRMC")) {

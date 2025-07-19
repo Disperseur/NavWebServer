@@ -15,12 +15,12 @@ private:
     float value;
   };
 
-  static const int MAX_SAMPLES = 300;
+  static const int MAX_SAMPLES = 65;
   Sample samples[MAX_SAMPLES];
   int count;
   unsigned long window;
 
-  unsigned long timeStringToSeconds(const String& timeStr) const;
+  unsigned long timeStringToSeconds(const String& timeStr);
 };
 
 #endif
