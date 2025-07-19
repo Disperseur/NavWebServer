@@ -27,8 +27,8 @@ VWVHW_Data parseVWVHW(String nmea) {
 
   if (count < 7) return data;
 
-  data.water_speedKnots =     fields[5].toFloat();
-  data.water_speedKnotsUnit = fields[6].length() > 0 ? fields[7].charAt(0) : ' ';
+  data.water_speedKts =     fields[5].toFloat();
+  data.water_speedKtsUnit = fields[6].length() > 0 ? fields[7].charAt(0) : ' ';
   data.water_speedKmh =       fields[7].toFloat();
   data.water_speedKmhUnit =   fields[8].length() > 0 ? fields[9].charAt(0) : ' ';
 
@@ -51,8 +51,8 @@ VWVHW_Data parseVWVHW(String nmea) {
 //     lastIndex = index + 1;
 
 //     switch (fieldIndex) {
-//       case 5: data.water_speedKnots = field.toFloat(); break;
-//       case 6: data.water_speedKnotsUnit = field.length() > 0 ? field.charAt(0) : ' '; break;
+//       case 5: data.water_speedKts = field.toFloat(); break;
+//       case 6: data.water_speedKtsUnit = field.length() > 0 ? field.charAt(0) : ' '; break;
 //       case 7: data.water_speedKmh = field.toFloat(); break;
 //       case 8: data.water_speedKmhUnit = field.length() > 0 ? field.charAt(0) : ' '; break;
 //     }

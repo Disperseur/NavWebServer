@@ -2,7 +2,9 @@
 #include "NMEAServer.h"
 #include <USBHostSerialDevice.h>
 
-// #define DEBUG_MAIN
+
+
+mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 
 USBHostSerialDevice hser(true);
 
@@ -24,7 +26,7 @@ void setup() {
   }
   hser.begin(460800);
 
-  server.init("Saint-Lou_Wifi", "123456789");
+  server.init("Saint-Lou_Wifi", "123456789"); //SSID, PASSWORD
 }
 
 String incomingLine = "";  // Buffer pour construire une ligne complète
@@ -39,20 +41,7 @@ void loop() {
       if (incomingLine.length() > 0) {
         // On a une trame complète, on la parse
         bateau.parse(incomingLine);
-        // bateau.printData(); // si tu veux
-
-#ifdef DEBUG_MAIN
-        Serial.print("Trame recue : ");
-        Serial.println(incomingLine);
-        Serial.println();
-        Serial.print("Ground speed avg 30min : ");
-        Serial.print(bateau.get_ground_speedKts_avg());
-        Serial.println(" kts");
-
-        Serial.print("Water speed avg 30min : ");
-        Serial.print(bateau.get_water_speedKnots_avg());
-        Serial.println(" kts");
-#endif        
+        // bateau.printData(); // si tu veux     
       }
 
       incomingLine = ""; // Reset pour la prochaine trame
@@ -64,5 +53,12 @@ void loop() {
   // Gérer le serveur web à chaque loop
   server.handleClient(bateau);
 
-  delay(50);
+
+  int mcuTemp = __HAL_ADC_CALC_TEMPERATURE (3300, mcuADCTemp.read_u16(), ADC_RESOLUTION_16B);
+
+  Serial.print("MCU Temp : ");
+  Serial.print(mcuTemp);
+  Serial.println(" *C");
+
+  delay(100);
 }

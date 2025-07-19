@@ -163,8 +163,8 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
     <h2>Route surface</h2>
     <table>
       <tr><td class="label">Profondeur sous quille:</td><td><span id="water_depthMeters"></span> m</td></tr>
-      <tr><td class="label">Vitesse dans l'eau:</td><td><span id="water_speedKnots"></span> kt</td></tr>
-      <tr><td class="label">Vitesse moyenne dans l'eau sur 30min:</td><td><span id="water_speedKnots_avg"></span> kt</td></tr>
+      <tr><td class="label">Vitesse dans l'eau:</td><td><span id="water_speedKts"></span> kt</td></tr>
+      <tr><td class="label">Vitesse moyenne dans l'eau sur 30min:</td><td><span id="water_speedKts_avg"></span> kt</td></tr>
       <tr><td class="label">Température de l'eau:</td><td><span id="water_temperatureCelsius"></span>°C</td></tr>
     </table>
   </div>

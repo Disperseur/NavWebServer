@@ -38,7 +38,7 @@ public:
   int set_ground_speedKts(float s);
   int set_ground_course(float c);
   int set_water_depthMeters(float d);
-  int set_water_speedKnots(float s);
+  int set_water_speedKts(float s);
   int set_water_temperatureCelsius(float t);
   int set_wind_angle(float a);
   int set_wind_angleReference(char ar);
@@ -57,7 +57,7 @@ public:
   float get_ground_speedKts(void);
   float get_ground_course(void);
   float get_water_depthMeters(void);
-  float get_water_speedKnots(void);
+  float get_water_speedKts(void);
   float get_water_temperatureCelsius(void);
   float get_wind_angle(void);
   char get_wind_angleReference(void);
@@ -65,7 +65,7 @@ public:
   char get_wind_speedUnit(void);
 
   float get_ground_speedKts_avg(void);
-  float get_water_speedKnots_avg(void);
+  float get_water_speedKts_avg(void);
   
 
 private:
@@ -85,7 +85,7 @@ private:
   float   ground_course;
 
   float   water_depthMeters;
-  float   water_speedKnots;
+  float   water_speedKts;
   float   water_temperatureCelsius;
 
   float   wind_angle;
@@ -94,7 +94,7 @@ private:
 
   // statistiques
   Averager ground_speedKts_avg;
-  Averager water_speedKnots_avg;
+  Averager water_speedKts_avg;
 
 };
 

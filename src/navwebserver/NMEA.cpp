@@ -18,7 +18,7 @@ String millisToTimeString(unsigned long ms) {
 
 
 Nmea::Nmea()
-: ground_speedKts_avg(1800), water_speedKnots_avg(1800) {
+: ground_speedKts_avg(1800), water_speedKts_avg(1800) {
 
 }
 
@@ -72,9 +72,9 @@ void Nmea::getSDDBTData(String nmea) {
 
 void Nmea::getVWVHWData(String nmea) {
   VWVHW_Data result = parseVWVHW(nmea);
-  set_water_speedKnots(result.water_speedKnots);
+  set_water_speedKts(result.water_speedKts);
 
-  water_speedKnots_avg.addSample(ground_time, result.water_speedKnots);
+  water_speedKts_avg.addSample(ground_time, result.water_speedKts);
 }
 
 void Nmea::getWIMTWData(String nmea) {
@@ -110,7 +110,7 @@ void Nmea::printData(void) {
   
   Serial.println("");
   Serial.println("Profondeur sous quille : " + String(get_water_depthMeters()) + " m");
-  Serial.println("Vitesse dans l'eau: " + String(get_water_speedKnots()) + " kt");
+  Serial.println("Vitesse dans l'eau: " + String(get_water_speedKts()) + " kt");
   Serial.println("Temperature de l'eau: " + String(get_water_temperatureCelsius()) + " °C");
 
   Serial.println("");
@@ -164,8 +164,8 @@ int Nmea::set_water_depthMeters(float d) {
   water_depthMeters = d;
 }
 
-int Nmea::set_water_speedKnots(float s) {
-  water_speedKnots = s;
+int Nmea::set_water_speedKts(float s) {
+  water_speedKts = s;
 }
 
 int Nmea::set_water_temperatureCelsius(float t) {
@@ -235,8 +235,8 @@ float Nmea::get_water_depthMeters(void) {
   return water_depthMeters;
 }
 
-float Nmea::get_water_speedKnots(void) {
-  return water_speedKnots;
+float Nmea::get_water_speedKts(void) {
+  return water_speedKts;
 }
 
 float Nmea::get_water_temperatureCelsius(void) {
@@ -261,7 +261,7 @@ float Nmea::get_ground_speedKts_avg(void) {
   return ground_speedKts_avg.getAverage();
 }
 
-float Nmea::get_water_speedKnots_avg(void) {
+float Nmea::get_water_speedKts_avg(void) {
   Serial.println("get water speed avg");
-  return water_speedKnots_avg.getAverage();
+  return water_speedKts_avg.getAverage();
 }

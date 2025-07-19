@@ -15,7 +15,7 @@ private:
     float value;
   };
 
-  static const int MAX_SAMPLES = 65;
+  static const int MAX_SAMPLES = 60;
   Sample samples[MAX_SAMPLES];
   int count;
   unsigned long window;

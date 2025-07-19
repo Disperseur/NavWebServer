@@ -68,22 +68,22 @@ void NMEAServer::sendHTML(WiFiClient &client) {
 
 void NMEAServer::sendJSON(Nmea &bateau, WiFiClient &client) {
   String json = "{";
-  json += "\"running_time\":\"" + bateau.get_running_time() + "\",";
-  json += "\"ground_time\":\"" + bateau.get_ground_time() + "\",";
-  json += "\"ground_date\":\"" + bateau.get_ground_date() + "\",";
-  json += "\"ground_latitude\":\"" + bateau.get_ground_latitude() + "\",";
-  json += "\"ground_latDir\":\"" + String(bateau.get_ground_latDir()) + "\",";
-  json += "\"ground_longitude\":\"" + bateau.get_ground_longitude() + "\",";
-  json += "\"ground_longDir\":\"" + String(bateau.get_ground_longDir()) + "\",";
-  json += "\"ground_speedKts\":" + String(bateau.get_ground_speedKts(), 1) + ",";
-  json += "\"ground_speedKts_avg\":" + String(bateau.get_ground_speedKts_avg(), 1) + ",";
-  json += "\"ground_course\":" + String(bateau.get_ground_course(), 0) + ",";
-  json += "\"water_depthMeters\":" + String(bateau.get_water_depthMeters(), 1) + ",";
-  json += "\"water_speedKnots\":" + String(bateau.get_water_speedKnots(), 1) + ",";
-  json += "\"water_speedKnots_avg\":" + String(bateau.get_water_speedKnots_avg(), 1) + ",";
+  json += "\"running_time\":\"" +           bateau.get_running_time() + "\",";
+  json += "\"ground_time\":\"" +            bateau.get_ground_time() + "\",";
+  json += "\"ground_date\":\"" +            bateau.get_ground_date() + "\",";
+  json += "\"ground_latitude\":\"" +        bateau.get_ground_latitude() + "\",";
+  json += "\"ground_latDir\":\"" +          String(bateau.get_ground_latDir()) + "\",";
+  json += "\"ground_longitude\":\"" +       bateau.get_ground_longitude() + "\",";
+  json += "\"ground_longDir\":\"" +         String(bateau.get_ground_longDir()) + "\",";
+  json += "\"ground_speedKts\":" +          String(bateau.get_ground_speedKts(), 1) + ",";
+  json += "\"ground_speedKts_avg\":" +      String(bateau.get_ground_speedKts_avg(), 1) + ",";
+  json += "\"ground_course\":" +            String(bateau.get_ground_course(), 0) + ",";
+  json += "\"water_depthMeters\":" +        String(bateau.get_water_depthMeters(), 1) + ",";
+  json += "\"water_speedKts\":" +         String(bateau.get_water_speedKts(), 1) + ",";
+  json += "\"water_speedKts_avg\":" +     String(bateau.get_water_speedKts_avg(), 1) + ",";
   json += "\"water_temperatureCelsius\":" + String(bateau.get_water_temperatureCelsius(), 0) + ",";
-  json += "\"wind_angle\":" + String(bateau.get_wind_angle(), 0) + ",";
-  json += "\"wind_speedKts\":" + String(bateau.get_wind_speedKts(), 0);
+  json += "\"wind_angle\":" +               String(bateau.get_wind_angle(), 0) + ",";
+  json += "\"wind_speedKts\":" +            String(bateau.get_wind_speedKts(), 0);
   json += "}";
 
   client.println("HTTP/1.1 200 OK");
