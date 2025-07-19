@@ -6,9 +6,12 @@
 using namespace rtos;
 
 
+
+Thread ledThread(osPriorityLow);
+Thread serverThread(osPriorityNormal);
+
 Nmea bateau;
 NMEAServer server;
-Thread ledThread(osPriorityLow);
 mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 USBHostSerialDevice hser(true);
 
@@ -16,6 +19,8 @@ USBHostSerialDevice hser(true);
 
 
 void ledThreadEntryPoint();
+void serverThreadEntryPoint();
+
 String get_nmea_from_usbhost(USBHostSerialDevice &dev);
 
 
@@ -36,6 +41,7 @@ void setup() {
   server.init("Saint-Lou_Wifi", "123456789"); //SSID, PASSWORD
 
   ledThread.start(ledThreadEntryPoint); // status led start
+  serverThread.start(serverThreadEntryPoint);
 }
 
 
@@ -44,7 +50,7 @@ void setup() {
 void loop() {
   bateau.parse(get_nmea_from_usbhost(hser));
 
-  server.handleClient(bateau);
+  // server.handleClient(bateau);
 
   int mcuTemp = __HAL_ADC_CALC_TEMPERATURE (3300, mcuADCTemp.read_u16(), ADC_RESOLUTION_16B);
 
@@ -67,9 +73,17 @@ void ledThreadEntryPoint() {
 
   while(1) {
     digitalWrite(LED_GREEN, LOW);
-    delay(500);
+    ThisThread::sleep_for(500);
     digitalWrite(LED_GREEN, HIGH);
-    delay(500);
+    ThisThread::sleep_for(500);
+  }
+}
+
+
+void serverThreadEntryPoint() {
+  while (true) {
+    server.handleClient(bateau);
+    ThisThread::sleep_for(10); // (ms) pour éviter de saturer le CPU
   }
 }
 

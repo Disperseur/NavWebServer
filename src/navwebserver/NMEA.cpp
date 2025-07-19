@@ -259,11 +259,9 @@ float Nmea::get_wind_speedKts(void) {
 
 
 float Nmea::get_ground_speedKts_avg(void) {
-  Serial.println("get ground speed avg");
   return ground_speedKts_avg.getAverage();
 }
 
 float Nmea::get_water_speedKts_avg(void) {
-  Serial.println("get water speed avg");
   return water_speedKts_avg.getAverage();
 }
