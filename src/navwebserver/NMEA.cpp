@@ -20,36 +20,61 @@ int Nmea::parse(String nmea) {
 
 
   if(nmea.indexOf("GPRMC") != -1) {
-    GPRMC_Data result = parseGPRMC(nmea);
-    set_ground_time(result.ground_time);
-    set_ground_sensorStatus(result.ground_sensorStatus);
-    set_ground_latitude(result.ground_latitude);
-    set_ground_latDir(result.ground_latDir);
-    set_ground_longitude(result.ground_longitude);
-    set_ground_longDir(result.ground_lonDir);
-    set_ground_speedKts(result.ground_speedKts);
-    set_ground_course(result.ground_course);
-    set_ground_date(result.ground_date);
+    getGPRMCData(nmea);
   }
   else if(nmea.indexOf("SDDBT") != -1) {
-    SDDBT_Data result = parseSDDBT(nmea);
-    set_water_depthMeters(result.water_depthMeters);
+    getSDDBTData(nmea);
   }
   else if(nmea.indexOf("VWVHW") != -1) {
-    VWVHW_Data result = parseVWVHW(nmea);
-    set_water_speedKnots(result.water_speedKnots);
+    getVWVHWData(nmea);
   }
   else if(nmea.indexOf("WIMTW") != -1) {
-    WIMTW_Data result = parseWIMTW(nmea);
-    set_water_temperatureCelsius(result.water_temperatureCelsius);
+    getWIMTWData(nmea);
   }
   else if(nmea.indexOf("WIMWV") != -1) {
-    WIMWV_Data result = parseWIMWV(nmea);
-    set_wind_angle(result.wind_angle);
-    set_wind_angleReference(result.wind_angleReference);
-    set_wind_speedKts(result.wind_speedKts);
-    set_wind_sensorStatus(result.wind_sensorStatus);
+    getWIMWVData(nmea);
   }
+}
+
+
+
+
+
+
+void Nmea::getGPRMCData(String nmea) {
+  GPRMC_Data result = parseGPRMC(nmea);
+  set_ground_time(result.ground_time);
+  set_ground_sensorStatus(result.ground_sensorStatus);
+  set_ground_latitude(result.ground_latitude);
+  set_ground_latDir(result.ground_latDir);
+  set_ground_longitude(result.ground_longitude);
+  set_ground_longDir(result.ground_lonDir);
+  set_ground_speedKts(result.ground_speedKts);
+  set_ground_course(result.ground_course);
+  set_ground_date(result.ground_date);
+}
+
+void Nmea::getSDDBTData(String nmea) {
+  SDDBT_Data result = parseSDDBT(nmea);
+  set_water_depthMeters(result.water_depthMeters);
+}
+
+void Nmea::getVWVHWData(String nmea) {
+  VWVHW_Data result = parseVWVHW(nmea);
+  set_water_speedKnots(result.water_speedKnots);
+}
+
+void Nmea::getWIMTWData(String nmea) {
+  WIMTW_Data result = parseWIMTW(nmea);
+  set_water_temperatureCelsius(result.water_temperatureCelsius);
+}
+
+void Nmea::getWIMWVData(String nmea) {
+  WIMWV_Data result = parseWIMWV(nmea);
+  set_wind_angle(result.wind_angle);
+  set_wind_angleReference(result.wind_angleReference);
+  set_wind_speedKts(result.wind_speedKts);
+  set_wind_sensorStatus(result.wind_sensorStatus);
 }
 
 

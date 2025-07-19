@@ -7,6 +7,8 @@
 #include "WIMTW.h"
 #include "VWVHW.h"
 
+#include "Averager.h"
+
 
 String millisToTimeString(unsigned long ms);
 
@@ -15,6 +17,12 @@ class Nmea
 public:  
   int parse(String nmea);
   void printData(void);
+
+  void getGPRMCData(String nmea);
+  void getSDDBTData(String nmea);
+  void getVWVHWData(String nmea);
+  void getWIMTWData(String nmea);
+  void getWIMWVData(String nmea);
 
 
   int set_ground_time(String t);
@@ -79,6 +87,9 @@ private:
   float   wind_angle;
   char    wind_angleReference;
   float   wind_speedKts;
+
+  // statistiques
+  //Averager ground_speedKts_avg;
 
 };
 

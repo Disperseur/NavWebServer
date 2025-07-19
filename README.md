@@ -20,8 +20,3 @@ pareil pour vitesse eau
 
 
 calcul de distance parcourue
-
-
-
-durée de nav en heure minutes
-
