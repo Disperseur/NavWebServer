@@ -25,7 +25,15 @@ void Averager::addSample(const String& gpsTimeStr, float value) {
 }
 
 float Averager::getAverage() const {
-  if (count == 0) return 0.0;
+  return avg;
+}
+
+int Averager::computeAverage() {
+  if (count == 0) {
+    avg = 0;
+    return 0;
+  }
+
   float sum = 0.0;
 
   Serial.print("Samples : [");
@@ -37,7 +45,9 @@ float Averager::getAverage() const {
   }
 
   Serial.println("]");
-  return sum / count;
+
+  avg = sum / count;
+  //return sum / count;
 }
 
 unsigned long Averager::timeStringToSeconds(const String& timeStr) {

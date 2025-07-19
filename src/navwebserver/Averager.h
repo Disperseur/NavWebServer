@@ -7,6 +7,7 @@ class Averager {
 public:
   Averager(unsigned long windowDurationSec);
   void addSample(const String& gpsTimeStr, float value);
+  int computeAverage();
   float getAverage() const;
 
 private:
@@ -19,6 +20,7 @@ private:
   Sample samples[MAX_SAMPLES];
   int count;
   unsigned long window;
+  float avg;
 
   unsigned long timeStringToSeconds(const String& timeStr);
 };

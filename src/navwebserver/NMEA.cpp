@@ -63,6 +63,7 @@ void Nmea::getGPRMCData(String nmea) {
   set_ground_date(result.ground_date);
 
   ground_speedKts_avg.addSample(result.ground_time, result.ground_speedKts);
+  ground_speedKts_avg.computeAverage();
 }
 
 void Nmea::getSDDBTData(String nmea) {
@@ -75,6 +76,7 @@ void Nmea::getVWVHWData(String nmea) {
   set_water_speedKts(result.water_speedKts);
 
   water_speedKts_avg.addSample(ground_time, result.water_speedKts);
+  water_speedKts_avg.computeAverage();
 }
 
 void Nmea::getWIMTWData(String nmea) {
