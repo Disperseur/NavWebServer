@@ -59,6 +59,15 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
   <script>
     let speedHistory = [];
 
+    // Charger l'historique depuis localStorage au démarrage
+    if (localStorage.getItem('speedHistory')) {
+      try {
+        speedHistory = JSON.parse(localStorage.getItem('speedHistory'));
+      } catch (e) {
+        speedHistory = [];
+      }
+    }
+
     function updateData() {
       fetch('/data')
         .then(response => response.json())
@@ -105,6 +114,9 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
 
           speedHistory.push(newSpeed);
           if (speedHistory.length > 60) speedHistory.shift();
+
+          // Sauvegarder l'historique dans localStorage
+          localStorage.setItem('speedHistory', JSON.stringify(speedHistory));
 
           gctx.clearRect(0, 0, graph.width, graph.height);
 
