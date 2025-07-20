@@ -51,7 +51,14 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       color: #666;
       margin-top: 10px;
     }
-    #windCanvas, #speedGraph {
+    #speedGraph {
+      display: block;
+      margin: 10px auto;
+      background: #fafbfc;
+      border: 1px solid #888;
+      border-radius: 4px;
+    }
+    #windCanvas {
       display: block;
       margin: 10px auto;
     }
@@ -124,11 +131,46 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
           gctx.beginPath();
           gctx.moveTo(0, graph.height - 1);
           gctx.lineTo(graph.width, graph.height - 1);
-          gctx.strokeStyle = '#ccc';
+          gctx.strokeStyle = '#888';
+          gctx.lineWidth = 1;
           gctx.stroke();
 
-          // Courbe
+          // Cadre autour du graphe
+          gctx.beginPath();
+          gctx.rect(0, 0, graph.width, graph.height);
+          gctx.strokeStyle = '#888';
+          gctx.lineWidth = 1;
+          gctx.stroke();
+
+          // Axe vertical et graduations
           const maxSpeed = 20; // ajustable
+          const gradStep = 5;  // graduation tous les 5 kt
+          gctx.font = "10px Arial";
+          gctx.fillStyle = "#333";
+          gctx.strokeStyle = "#bbb";
+          gctx.lineWidth = 1;
+          for (let v = 0; v <= maxSpeed; v += gradStep) {
+            const y = graph.height - (v / maxSpeed) * graph.height;
+            // Graduation
+            gctx.beginPath();
+            gctx.moveTo(0, y);
+            gctx.lineTo(8, y);
+            gctx.stroke();
+            // Texte
+            gctx.fillText(v + " kt", 12, y + 3);
+            // Ligne horizontale légère (optionnel)
+            if (v > 0 && v < maxSpeed) {
+              gctx.beginPath();
+              gctx.moveTo(0, y);
+              gctx.lineTo(graph.width, y);
+              gctx.strokeStyle = "#eee";
+              gctx.stroke();
+              gctx.strokeStyle = "#bbb";
+            }
+          }
+
+          // Courbe
+          //const maxSpeed = 20; // ajustable
           gctx.beginPath();
           for (let i = 0; i < speedHistory.length; i++) {
             const x = (i / speedHistory.length) * graph.width;
@@ -169,6 +211,9 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       <tr><td class="label">Vitesse moyenne sol sur 30min:</td><td><span id="ground_speedKts_avg"></span> kt</td></tr>
     </table>
     <canvas id="speedGraph" width="600" height="100"></canvas>
+    <div style="text-align:center; font-size:0.95em; color:#555; margin-bottom:2px;">
+      Historique vitesse sol
+    </div>
   </div>
 
   <div class="card">
