@@ -58,13 +58,25 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       border: 1px solid #888;
       border-radius: 4px;
     }
+    #depthGraph {
+      display: block;
+      margin: 10px auto;
+      background: #fafbfc;
+      border: 1px solid #888;
+      border-radius: 4px;
+    }
     #windCanvas {
       display: block;
       margin: 10px auto;
     }
   </style>
+
+
+
   <script>
     let speedHistory = [];
+    let depthHistory = [];
+
 
     // Charger l'historique depuis localStorage au démarrage
     if (localStorage.getItem('speedHistory')) {
@@ -72,6 +84,13 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
         speedHistory = JSON.parse(localStorage.getItem('speedHistory'));
       } catch (e) {
         speedHistory = [];
+      }
+    }
+    if (localStorage.getItem('depthHistory')) {
+      try {
+        depthHistory = JSON.parse(localStorage.getItem('depthHistory'));
+      } catch (e) {
+        depthHistory = [];
       }
     }
 
@@ -170,7 +189,6 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
           }
 
           // Courbe
-          //const maxSpeed = 20; // ajustable
           gctx.beginPath();
           for (let i = 0; i < speedHistory.length; i++) {
             const x = (i / speedHistory.length) * graph.width;
@@ -181,6 +199,73 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
           gctx.strokeStyle = 'blue';
           gctx.lineWidth = 2;
           gctx.stroke();
+
+
+          // --- Graphe de profondeur sous quille ---
+          const depthGraph = document.getElementById('depthGraph');
+          const dctx = depthGraph.getContext('2d');
+          const newDepth = parseFloat(data.water_depthMeters) || 0;
+
+          depthHistory.push(newDepth);
+          if (depthHistory.length > 60) depthHistory.shift();
+          localStorage.setItem('depthHistory', JSON.stringify(depthHistory));
+
+          dctx.clearRect(0, 0, depthGraph.width, depthGraph.height);
+
+          // Axe horizontal
+          dctx.beginPath();
+          dctx.moveTo(0, depthGraph.height - 1);
+          dctx.lineTo(depthGraph.width, depthGraph.height - 1);
+          dctx.strokeStyle = '#888';
+          dctx.lineWidth = 1;
+          dctx.stroke();
+
+          // Cadre autour du graphe
+          dctx.beginPath();
+          dctx.rect(0, 0, depthGraph.width, depthGraph.height);
+          dctx.strokeStyle = '#888';
+          dctx.lineWidth = 1;
+          dctx.stroke();
+
+          // Axe vertical et graduations
+          const maxDepth = 30; // ajustable selon ton plan d'eau
+          const gradStepDepth = 5; // graduation tous les 2 m
+          dctx.font = "10px Arial";
+          dctx.fillStyle = "#333";
+          dctx.strokeStyle = "#bbb";
+          dctx.lineWidth = 1;
+          for (let v = 0; v <= maxDepth; v += gradStepDepth) {
+            const y = (v / maxDepth) * depthGraph.height;
+            // Graduation
+            dctx.beginPath();
+            dctx.moveTo(0, y);
+            dctx.lineTo(8, y);
+            dctx.stroke();
+            // Texte
+            dctx.fillText(v + " m", 12, y + 3);
+            // Ligne horizontale légère (optionnel)
+            if (v > 0 && v < maxDepth) {
+              dctx.beginPath();
+              dctx.moveTo(0, y);
+              dctx.lineTo(depthGraph.width, y);
+              dctx.strokeStyle = "#eee";
+              dctx.stroke();
+              dctx.strokeStyle = "#bbb";
+            }
+          }
+
+          // Courbe profondeur
+          dctx.beginPath();
+          for (let i = 0; i < depthHistory.length; i++) {
+            const x = (i / depthHistory.length) * depthGraph.width;
+            const y = (depthHistory[i] / maxDepth) * depthGraph.height;
+            if (i === 0) dctx.moveTo(x, y);
+            else dctx.lineTo(x, y);
+          }
+          dctx.strokeStyle = 'green';
+          dctx.lineWidth = 2;
+          dctx.stroke();
+
         })
         .catch(err => console.error(err));
     }
@@ -210,6 +295,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       <tr><td class="label">Vitesse sol:</td><td><span id="ground_speedKts"></span> kt</td></tr>
       <tr><td class="label">Vitesse moyenne sol sur 30min:</td><td><span id="ground_speedKts_avg"></span> kt</td></tr>
     </table>
+
     <canvas id="speedGraph" width="600" height="100"></canvas>
     <div style="text-align:center; font-size:0.95em; color:#555; margin-bottom:2px;">
       Historique vitesse sol
@@ -224,6 +310,11 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       <tr><td class="label">Vitesse moyenne dans l'eau sur 30min:</td><td><span id="water_speedKts_avg"></span> kt</td></tr>
       <tr><td class="label">Température de l'eau:</td><td><span id="water_temperatureCelsius"></span>°C</td></tr>
     </table>
+
+    <canvas id="depthGraph" width="600" height="100"></canvas>
+    <div style="text-align:center; font-size:0.95em; color:#555; margin-bottom:2px;">
+      Historique profondeur sous quille
+    </div>
   </div>
 
   <div class="card">
