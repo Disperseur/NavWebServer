@@ -10,6 +10,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
   <style>
     body {
       font-family: Arial, sans-serif;
+      font-size: 35px;
       background: #f2f2f2;
       margin: 0;
       padding: 10px;
@@ -292,8 +293,8 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       <tr><td class="label">Latitude:</td><td><span id="ground_latitude"></span> <span id="ground_latDir"></span></td></tr>
       <tr><td class="label">Longitude:</td><td><span id="ground_longitude"></span> <span id="ground_longDir"></span></td></tr>
       <tr><td class="label">Cap:</td><td><span id="ground_course"></span>°</td></tr>
-      <tr><td class="label">Vitesse sol:</td><td><span id="ground_speedKts"></span> kt</td></tr>
-      <tr><td class="label">Vitesse moyenne sol sur 30min:</td><td><span id="ground_speedKts_avg"></span> kt</td></tr>
+      <tr><td class="label">VF:</td><td><span id="ground_speedKts"></span> kt</td></tr>
+      <tr><td class="label">VFM:</td><td><span id="ground_speedKts_avg"></span> kt</td></tr>
     </table>
 
     <canvas id="speedGraph" width="600" height="100"></canvas>
@@ -306,8 +307,8 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
     <h2>Route surface</h2>
     <table>
       <tr><td class="label">Profondeur sous quille:</td><td><span id="water_depthMeters"></span> m</td></tr>
-      <tr><td class="label">Vitesse dans l'eau:</td><td><span id="water_speedKts"></span> kt</td></tr>
-      <tr><td class="label">Vitesse moyenne dans l'eau sur 30min:</td><td><span id="water_speedKts_avg"></span> kt</td></tr>
+      <tr><td class="label">VS:</td><td><span id="water_speedKts"></span> kt</td></tr>
+      <tr><td class="label">VSM:</td><td><span id="water_speedKts_avg"></span> kt</td></tr>
       <tr><td class="label">Température de l'eau:</td><td><span id="water_temperatureCelsius"></span>°C</td></tr>
     </table>
 
