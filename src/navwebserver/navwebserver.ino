@@ -3,12 +3,26 @@
 #include "config.h"
 #include <USBHostSerialDevice.h>
 
+
+//capteur pression
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
+
+
+
+
 using namespace rtos;
+
+
+void pressure_alarm_reset(void);
+Adafruit_BME280 bme; // I2C
 
 
 
 Thread ledThread(osPriorityLow);
 Thread serverThread(osPriorityNormal);
+Thread pressureAlarmThread(osPriorityLow);
 
 Nmea bateau;
 NMEAServer server;
@@ -20,6 +34,7 @@ USBHostSerialDevice hser(true);
 
 void ledThreadEntryPoint();
 void serverThreadEntryPoint();
+void pressureAlarmThreadEntryPoint();
 
 String get_nmea_from_usbhost(USBHostSerialDevice &dev);
 
@@ -42,6 +57,16 @@ void setup() {
 
   ledThread.start(ledThreadEntryPoint); // status led start
   serverThread.start(serverThreadEntryPoint);
+  pressureAlarmThread.start(pressureAlarmThreadEntryPoint);
+
+
+  int status = bme.begin(0x76, &Wire1);
+  if (!status) {
+      while (1) {
+          Serial.println("Erreur d'initialisation du bme");
+          delay(10);
+      }
+  }
 }
 
 
@@ -50,8 +75,6 @@ void setup() {
 void loop() {
   bateau.parse(get_nmea_from_usbhost(hser));
 
-  // server.handleClient(bateau);
-
   int mcuTemp = __HAL_ADC_CALC_TEMPERATURE (3300, mcuADCTemp.read_u16(), ADC_RESOLUTION_16B);
 
   Serial.print("MCU Temp : ");
@@ -59,6 +82,34 @@ void loop() {
   Serial.println(" *C");
 
   delay(100);
+  //ThisThread::sleep_for(100);
+}
+
+
+
+
+void pressureAlarmThreadEntryPoint() {
+
+  pinMode(5, OUTPUT); //buzzer pin
+  digitalWrite(5, LOW);
+  pinMode(PC_13, INPUT);
+  attachInterrupt(digitalPinToInterrupt(PC_13), pressure_alarm_reset, RISING);
+  
+  float oldTemp = bme.readTemperature();
+
+  while(true) {
+    if(bme.readTemperature() - oldTemp > 2.0) {
+      digitalWrite(5, HIGH);
+    }
+    oldTemp = bme.readTemperature();
+
+    ThisThread::sleep_for(4000); // delai a modifier pour travailler sur 30 minutes
+  }
+}
+
+
+void pressure_alarm_reset(void) {
+    digitalWrite(5, LOW);
 }
 
 
