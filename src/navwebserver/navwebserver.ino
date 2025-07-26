@@ -53,11 +53,13 @@ void setup() {
 void loop() {
   bateau.parse(get_nmea_from_usbhost(hser));
 
+#ifdef DEBUG_MCUTEMP
   int mcuTemp = __HAL_ADC_CALC_TEMPERATURE (3300, mcuADCTemp.read_u16(), ADC_RESOLUTION_16B);
 
-  // Serial.print("MCU Temp : ");
-  // Serial.print(mcuTemp);
-  // Serial.println(" *C");
+  Serial.print("MCU Temp : ");
+  Serial.print(mcuTemp);
+  Serial.println(" *C");
+#endif
 
   ThisThread::sleep_for(100);
 }

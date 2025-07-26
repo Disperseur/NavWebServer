@@ -6,10 +6,10 @@
 
 // debug param
 
-// #define DEBUG_MAIN
+// #define DEBUG_MCUTEMP
 // #define DEBUG_NMEA
-#define DEBUG_SERVER
-#define DEBUG_ALARM
+// #define DEBUG_SERVER
+// #define DEBUG_ALARM
 // #define DEBUG_AVERAGER
 
 
