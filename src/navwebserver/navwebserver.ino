@@ -98,7 +98,9 @@ void pressureAlarmThreadEntryPoint() {
 
   while(true) {
 #ifdef DEBUG_ALARM
+    Serial.print("[ALARME] Temperature mesuree : ");
     Serial.print(bme.readTemperature());
+    Serial.println(" *C");
 #endif
 
     if(bme.readTemperature() > 33.0) { // (bme.readTemperature() - oldTemp > 2.0)

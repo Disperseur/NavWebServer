@@ -90,14 +90,13 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
 
     // Exemple : mise à jour automatique de l'état de l'alarme
     function updateAlarmState(isActive) {
-      const indicator = document.getElementById('alarmIndicator');
-      const status = document.getElementById('alarmStatus');
+      const button = document.getElementById('alarmButton');
       if (isActive) {
-        indicator.style.backgroundColor = 'red';
-        status.textContent = 'GRAIN IMMINENT';
+        button.style.backgroundColor = 'red';
+        // button.textContent = 'GRAIN IMMINENT';
       } else {
-        indicator.style.backgroundColor = 'grey';
-        status.textContent = 'Alarme désactivée';
+        button.style.backgroundColor = 'grey';
+        // button.textContent = 'Alarme désactivée';
       }
     }
 
@@ -312,12 +311,10 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
 
   <div class="card">
     <h2>Alarmes</h2>
-    <div style="display: flex; align-items: center; justify-content: space-between;">
-      <div>
-        <span id="alarmIndicator" style="display:inline-block; width:30px; height:30px; border-radius:50%; background-color: grey;"></span>
-        <span style="margin-left: 10px;" id="alarmStatus">Alarme désactivée</span>
-      </div>
-      <button onclick="disableAlarm()" style="font-size: 20px; padding: 10px;">Désactiver</button>
+    <div style="display: flex; justify-content: center;">
+      <button id="alarmButton" onclick="disableAlarm()" style="font-size: 20px; padding: 15px 30px; border: none; border-radius: 10px; background-color: grey; color: white;">
+        GRAIN IMMINENT
+      </button>
     </div>
   </div>
 
