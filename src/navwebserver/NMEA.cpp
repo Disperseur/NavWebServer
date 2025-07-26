@@ -211,7 +211,9 @@ int Nmea::set_wind_speedKts(float s) {
   wind_speedKts = s;
 }
 
-
+void Nmea::set_pressure_alarm(bool s) {
+  pressure_alarm = s;
+}
 
 
 String Nmea::get_running_time(void) {
@@ -289,4 +291,8 @@ float Nmea::get_ground_speedKts_avg(void) {
 
 float Nmea::get_water_speedKts_avg(void) {
   return water_speedKts_avg.getAverage();
+}
+
+bool Nmea::get_pressure_alarm(void) {
+  return pressure_alarm;
 }

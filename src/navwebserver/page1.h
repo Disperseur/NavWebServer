@@ -75,6 +75,33 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
 
 
   <script>
+
+
+    function disableAlarm() {
+      fetch('/disable-alarm') // tu devras gérer cette route côté Arduino
+        .then(response => {
+          if (response.ok) {
+            document.getElementById('alarmIndicator').style.backgroundColor = 'grey';
+            //document.getElementById('alarmStatus').textContent = 'Alarme désactivée';
+          }
+        })
+        .catch(err => console.error('Erreur désactivation:', err));
+    }
+
+    // Exemple : mise à jour automatique de l'état de l'alarme
+    function updateAlarmState(isActive) {
+      const indicator = document.getElementById('alarmIndicator');
+      const status = document.getElementById('alarmStatus');
+      if (isActive) {
+        indicator.style.backgroundColor = 'red';
+        status.textContent = 'GRAIN IMMINENT';
+      } else {
+        indicator.style.backgroundColor = 'grey';
+        status.textContent = 'Alarme désactivée';
+      }
+    }
+
+
     let speedHistory = [];
     let depthHistory = [];
 
@@ -103,6 +130,9 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
             const el = document.getElementById(key);
             if (el) el.textContent = data[key];
           }
+
+          // mise a jour alarme
+          updateAlarmState(data.pressure_alarm);
 
           // --- Dessin du vent ---
           const canvas = document.getElementById('windCanvas');
@@ -271,12 +301,25 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
         .catch(err => console.error(err));
     }
 
+    
+
     setInterval(updateData, 1000);
     window.onload = updateData;
   </script>
 </head>
 <body>
   <h1>Saint-Lou - Données de navigation</h1>
+
+  <div class="card">
+    <h2>Alarmes</h2>
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <span id="alarmIndicator" style="display:inline-block; width:30px; height:30px; border-radius:50%; background-color: grey;"></span>
+        <span style="margin-left: 10px;" id="alarmStatus">Alarme désactivée</span>
+      </div>
+      <button onclick="disableAlarm()" style="font-size: 20px; padding: 10px;">Désactiver</button>
+    </div>
+  </div>
 
   <div class="card">
     <h2>Horloge</h2>

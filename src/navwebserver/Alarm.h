@@ -11,8 +11,6 @@ using namespace rtos;
 
 
 
-void pressure_alarm_reset(void);
-void pressureAlarmThreadEntryPoint();
 
 
 #endif

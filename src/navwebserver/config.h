@@ -8,7 +8,8 @@
 
 // #define DEBUG_MAIN
 // #define DEBUG_NMEA
-// #define DEBUG_NMEASERVER
+#define DEBUG_SERVER
+#define DEBUG_ALARM
 // #define DEBUG_AVERAGER
 
 

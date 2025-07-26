@@ -8,8 +8,6 @@
 #include "config.h"
 
 
-// #define DEBUG_SERVER
-
 class NMEAServer {
   public:
     NMEAServer();
