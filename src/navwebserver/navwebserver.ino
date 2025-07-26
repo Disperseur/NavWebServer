@@ -20,7 +20,6 @@ mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 USBHostSerialDevice hser(true);
 
 
-void serverThreadEntryPoint();
 
 String get_nmea_from_usbhost(USBHostSerialDevice &dev);
 
@@ -62,25 +61,6 @@ void loop() {
   ThisThread::sleep_for(100);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-void serverThreadEntryPoint() {
-  while (true) {
-    server.handleClient(bateau);
-    ThisThread::sleep_for(10); // (ms) pour éviter de saturer le CPU
-  }
-}
 
 
 

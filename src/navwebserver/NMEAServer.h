@@ -23,4 +23,7 @@ class NMEAServer {
     void sendNotFound(WiFiClient &client);
 };
 
+void serverThreadEntryPoint();
+
+
 #endif

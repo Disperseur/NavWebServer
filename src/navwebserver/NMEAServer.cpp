@@ -100,3 +100,12 @@ void NMEAServer::sendNotFound(WiFiClient &client) {
   client.println();
   client.println("404 Not Found");
 }
+
+
+
+void serverThreadEntryPoint() {
+  while (true) {
+    server.handleClient(bateau);
+    ThisThread::sleep_for(10); // (ms) pour éviter de saturer le CPU
+  }
+}
