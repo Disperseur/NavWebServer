@@ -20,8 +20,8 @@ USBHostSerialDevice hser(true);
 
 
 void serverThreadEntryPoint();
-void pressure_alarm_reset(void);
 void pressureAlarmThreadEntryPoint();
+void cb_pressure_alarm_reset(void);
 
 
 
@@ -84,7 +84,7 @@ void pressureAlarmThreadEntryPoint() {
   pinMode(5, OUTPUT); //buzzer pin
   digitalWrite(5, LOW);
   pinMode(PC_13, INPUT);
-  attachInterrupt(digitalPinToInterrupt(PC_13), pressure_alarm_reset, RISING);
+  attachInterrupt(digitalPinToInterrupt(PC_13), cb_pressure_alarm_reset, RISING);
 
 
   int status = bme.begin(0x76, &Wire1);
@@ -116,7 +116,7 @@ void pressureAlarmThreadEntryPoint() {
 }
 
 
-void pressure_alarm_reset(void) {
+void cb_pressure_alarm_reset(void) {
     digitalWrite(5, LOW);
     bateau.set_pressure_alarm(false);
 }
