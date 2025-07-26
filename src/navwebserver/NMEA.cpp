@@ -3,6 +3,31 @@
 // fonctions utilisateur
 
 
+
+String get_nmea_from_usbhost(USBHostSerialDevice &dev) {
+  String incomingLine = "";  // Buffer pour construire une ligne complète
+
+  while (dev.available()) {
+    char c = dev.read();
+
+    if (c == '\n') {  // Fin de trame NMEA
+      incomingLine.trim(); // enlève '\r' ou espaces
+
+      if (incomingLine.length() > 0) {
+        // On a une trame complète, on la revoie
+        return incomingLine;
+      }
+
+      incomingLine = ""; // Reset pour la prochaine trame
+    } else {
+      incomingLine += c; // Ajoute le caractère au buffer
+    }
+  }
+}
+
+
+
+
 String millisToTimeString(unsigned long ms) {
   unsigned long totalSeconds = ms / 1000;
   unsigned int hours = totalSeconds / 3600;
@@ -186,7 +211,9 @@ int Nmea::set_wind_speedKts(float s) {
   wind_speedKts = s;
 }
 
-
+void Nmea::set_pressure_alarm(bool s) {
+  pressure_alarm = s;
+}
 
 
 String Nmea::get_running_time(void) {
@@ -264,4 +291,8 @@ float Nmea::get_ground_speedKts_avg(void) {
 
 float Nmea::get_water_speedKts_avg(void) {
   return water_speedKts_avg.getAverage();
+}
+
+bool Nmea::get_pressure_alarm(void) {
+  return pressure_alarm;
 }

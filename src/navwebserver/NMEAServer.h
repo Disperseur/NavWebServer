@@ -8,8 +8,6 @@
 #include "config.h"
 
 
-// #define DEBUG_SERVER
-
 class NMEAServer {
   public:
     NMEAServer();
@@ -22,5 +20,7 @@ class NMEAServer {
     void sendJSON(Nmea &bateau, WiFiClient &client);
     void sendNotFound(WiFiClient &client);
 };
+
+
 
 #endif

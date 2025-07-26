@@ -45,6 +45,10 @@ void NMEAServer::handleClient(Nmea &bateau) {
       sendHTML(client);
     } else if (request.indexOf("GET /data") >= 0) {
       sendJSON(bateau, client);
+    } else if (request.indexOf("GET /disable-alarm") >= 0) {
+      //reset l'alarme
+      bateau.set_pressure_alarm(false);
+      digitalWrite(5, LOW);
     } else {
       sendNotFound(client);
     }
@@ -79,11 +83,12 @@ void NMEAServer::sendJSON(Nmea &bateau, WiFiClient &client) {
   json += "\"ground_speedKts_avg\":" +      String(bateau.get_ground_speedKts_avg(), 1) + ",";
   json += "\"ground_course\":" +            String(bateau.get_ground_course(), 0) + ",";
   json += "\"water_depthMeters\":" +        String(bateau.get_water_depthMeters(), 1) + ",";
-  json += "\"water_speedKts\":" +         String(bateau.get_water_speedKts(), 1) + ",";
-  json += "\"water_speedKts_avg\":" +     String(bateau.get_water_speedKts_avg(), 1) + ",";
+  json += "\"water_speedKts\":" +           String(bateau.get_water_speedKts(), 1) + ",";
+  json += "\"water_speedKts_avg\":" +       String(bateau.get_water_speedKts_avg(), 1) + ",";
   json += "\"water_temperatureCelsius\":" + String(bateau.get_water_temperatureCelsius(), 0) + ",";
   json += "\"wind_angle\":" +               String(bateau.get_wind_angle(), 0) + ",";
-  json += "\"wind_speedKts\":" +            String(bateau.get_wind_speedKts(), 0);
+  json += "\"wind_speedKts\":" +            String(bateau.get_wind_speedKts(), 0) + ",";
+  json += "\"pressure_alarm\":" +           String(bateau.get_pressure_alarm());
   json += "}";
 
   client.println("HTTP/1.1 200 OK");
@@ -100,3 +105,6 @@ void NMEAServer::sendNotFound(WiFiClient &client) {
   client.println();
   client.println("404 Not Found");
 }
+
+
+

@@ -11,8 +11,13 @@
 
 #include "Averager.h"
 
+#include <USBHostSerialDevice.h>
+
 
 String millisToTimeString(unsigned long ms);
+
+String get_nmea_from_usbhost(USBHostSerialDevice &dev);
+
 
 class Nmea
 {
@@ -68,6 +73,9 @@ public:
 
   float get_ground_speedKts_avg(void);
   float get_water_speedKts_avg(void);
+
+  bool get_pressure_alarm(void);
+  void set_pressure_alarm(bool s);
   
 
 private:
@@ -97,6 +105,9 @@ private:
   // statistiques
   Averager ground_speedKts_avg;
   Averager water_speedKts_avg;
+
+  // alarmes
+  bool pressure_alarm;
 
 };
 

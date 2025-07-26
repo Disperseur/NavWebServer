@@ -75,6 +75,32 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
 
 
   <script>
+
+
+    function disableAlarm() {
+      fetch('/disable-alarm') // tu devras gérer cette route côté Arduino
+        .then(response => {
+          if (response.ok) {
+            document.getElementById('alarmIndicator').style.backgroundColor = 'grey';
+            //document.getElementById('alarmStatus').textContent = 'Alarme désactivée';
+          }
+        })
+        .catch(err => console.error('Erreur désactivation:', err));
+    }
+
+    // Exemple : mise à jour automatique de l'état de l'alarme
+    function updateAlarmState(isActive) {
+      const button = document.getElementById('alarmButton');
+      if (isActive) {
+        button.style.backgroundColor = 'red';
+        // button.textContent = 'GRAIN IMMINENT';
+      } else {
+        button.style.backgroundColor = 'grey';
+        // button.textContent = 'Alarme désactivée';
+      }
+    }
+
+
     let speedHistory = [];
     let depthHistory = [];
 
@@ -103,6 +129,9 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
             const el = document.getElementById(key);
             if (el) el.textContent = data[key];
           }
+
+          // mise a jour alarme
+          updateAlarmState(data.pressure_alarm);
 
           // --- Dessin du vent ---
           const canvas = document.getElementById('windCanvas');
@@ -271,12 +300,23 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
         .catch(err => console.error(err));
     }
 
+    
+
     setInterval(updateData, 1000);
     window.onload = updateData;
   </script>
 </head>
 <body>
   <h1>Saint-Lou - Données de navigation</h1>
+
+  <div class="card">
+    <h2>Alarmes</h2>
+    <div style="display: flex; justify-content: center;">
+      <button id="alarmButton" onclick="disableAlarm()" style="font-size: 20px; padding: 15px 30px; border: none; border-radius: 10px; background-color: grey; color: white;">
+        GRAIN IMMINENT
+      </button>
+    </div>
+  </div>
 
   <div class="card">
     <h2>Horloge</h2>

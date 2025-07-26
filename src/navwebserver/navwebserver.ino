@@ -1,14 +1,17 @@
 #include "NMEA.h"
 #include "NMEAServer.h"
 #include "config.h"
-#include <USBHostSerialDevice.h>
+#include "Alarm.h"
+#include "LedService.h"
+
+
 
 using namespace rtos;
 
 
-
 Thread ledThread(osPriorityLow);
 Thread serverThread(osPriorityNormal);
+Thread pressureAlarmThread(osPriorityLow);
 
 Nmea bateau;
 NMEAServer server;
@@ -16,12 +19,10 @@ mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 USBHostSerialDevice hser(true);
 
 
-
-
-void ledThreadEntryPoint();
 void serverThreadEntryPoint();
+void pressureAlarmThreadEntryPoint();
+void cb_pressure_alarm_reset(void);
 
-String get_nmea_from_usbhost(USBHostSerialDevice &dev);
 
 
 
@@ -42,6 +43,8 @@ void setup() {
 
   ledThread.start(ledThreadEntryPoint); // status led start
   serverThread.start(serverThreadEntryPoint);
+  pressureAlarmThread.start(pressureAlarmThreadEntryPoint);
+
 }
 
 
@@ -50,34 +53,18 @@ void setup() {
 void loop() {
   bateau.parse(get_nmea_from_usbhost(hser));
 
-  // server.handleClient(bateau);
-
+#ifdef DEBUG_MCUTEMP
   int mcuTemp = __HAL_ADC_CALC_TEMPERATURE (3300, mcuADCTemp.read_u16(), ADC_RESOLUTION_16B);
 
   Serial.print("MCU Temp : ");
   Serial.print(mcuTemp);
   Serial.println(" *C");
+#endif
 
-  delay(100);
+  ThisThread::sleep_for(100);
 }
 
 
-
-void ledThreadEntryPoint() {
-  pinMode(LED_RED, OUTPUT);
-  pinMode(LED_GREEN, OUTPUT);
-  pinMode(LED_BLUE, OUTPUT);
-
-  digitalWrite(LED_RED, HIGH);
-  digitalWrite(LED_BLUE, HIGH);
-
-  while(1) {
-    digitalWrite(LED_GREEN, LOW);
-    ThisThread::sleep_for(500);
-    digitalWrite(LED_GREEN, HIGH);
-    ThisThread::sleep_for(500);
-  }
-}
 
 
 void serverThreadEntryPoint() {
@@ -89,23 +76,47 @@ void serverThreadEntryPoint() {
 
 
 
-String get_nmea_from_usbhost(USBHostSerialDevice &dev) {
-  String incomingLine = "";  // Buffer pour construire une ligne complète
 
-  while (dev.available()) {
-    char c = dev.read();
 
-    if (c == '\n') {  // Fin de trame NMEA
-      incomingLine.trim(); // enlève '\r' ou espaces
+void pressureAlarmThreadEntryPoint() {
+  Adafruit_BME280 bme; // I2C
 
-      if (incomingLine.length() > 0) {
-        // On a une trame complète, on la revoie
-        return incomingLine;
+  pinMode(5, OUTPUT); //buzzer pin
+  digitalWrite(5, LOW);
+  pinMode(PC_13, INPUT);
+  attachInterrupt(digitalPinToInterrupt(PC_13), cb_pressure_alarm_reset, RISING);
+
+
+  int status = bme.begin(0x76, &Wire1);
+  if (!status) {
+      while (1) {
+          Serial.println("Erreur d'initialisation du bme");
+          delay(10);
       }
-
-      incomingLine = ""; // Reset pour la prochaine trame
-    } else {
-      incomingLine += c; // Ajoute le caractère au buffer
-    }
   }
+  
+  float oldTemp = bme.readTemperature();
+  bateau.set_pressure_alarm(false);
+
+  while(true) {
+#ifdef DEBUG_ALARM
+    Serial.print("[ALARME] Temperature mesuree : ");
+    Serial.print(bme.readTemperature());
+    Serial.println(" *C");
+#endif
+
+    if(bme.readTemperature() > 33.0) { // (bme.readTemperature() - oldTemp > 2.0)
+      digitalWrite(5, HIGH);
+      bateau.set_pressure_alarm(true);
+    }
+    oldTemp = bme.readTemperature();
+
+    ThisThread::sleep_for(4000); // delai a modifier pour travailler sur 30 minutes
+  }
+}
+
+
+void cb_pressure_alarm_reset(void) {
+    digitalWrite(5, LOW);
+    bateau.set_pressure_alarm(false);
 }
