@@ -1,23 +1,11 @@
 #include "NMEA.h"
 #include "NMEAServer.h"
 #include "config.h"
+#include "Alarm.h"
 #include <USBHostSerialDevice.h>
 
 
-//capteur pression
-#include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
-
-
-
-
 using namespace rtos;
-
-
-void pressure_alarm_reset(void);
-Adafruit_BME280 bme; // I2C
-
 
 
 Thread ledThread(osPriorityLow);
@@ -30,11 +18,8 @@ mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 USBHostSerialDevice hser(true);
 
 
-
-
 void ledThreadEntryPoint();
 void serverThreadEntryPoint();
-void pressureAlarmThreadEntryPoint();
 
 String get_nmea_from_usbhost(USBHostSerialDevice &dev);
 
@@ -59,14 +44,6 @@ void setup() {
   serverThread.start(serverThreadEntryPoint);
   pressureAlarmThread.start(pressureAlarmThreadEntryPoint);
 
-
-  int status = bme.begin(0x76, &Wire1);
-  if (!status) {
-      while (1) {
-          Serial.println("Erreur d'initialisation du bme");
-          delay(10);
-      }
-  }
 }
 
 
@@ -81,54 +58,20 @@ void loop() {
   Serial.print(mcuTemp);
   Serial.println(" *C");
 
-  delay(100);
-  //ThisThread::sleep_for(100);
+  ThisThread::sleep_for(100);
 }
 
 
 
 
-void pressureAlarmThreadEntryPoint() {
-
-  pinMode(5, OUTPUT); //buzzer pin
-  digitalWrite(5, LOW);
-  pinMode(PC_13, INPUT);
-  attachInterrupt(digitalPinToInterrupt(PC_13), pressure_alarm_reset, RISING);
-  
-  float oldTemp = bme.readTemperature();
-
-  while(true) {
-    if(bme.readTemperature() - oldTemp > 2.0) {
-      digitalWrite(5, HIGH);
-    }
-    oldTemp = bme.readTemperature();
-
-    ThisThread::sleep_for(4000); // delai a modifier pour travailler sur 30 minutes
-  }
-}
-
-
-void pressure_alarm_reset(void) {
-    digitalWrite(5, LOW);
-}
 
 
 
-void ledThreadEntryPoint() {
-  pinMode(LED_RED, OUTPUT);
-  pinMode(LED_GREEN, OUTPUT);
-  pinMode(LED_BLUE, OUTPUT);
 
-  digitalWrite(LED_RED, HIGH);
-  digitalWrite(LED_BLUE, HIGH);
 
-  while(1) {
-    digitalWrite(LED_GREEN, LOW);
-    ThisThread::sleep_for(500);
-    digitalWrite(LED_GREEN, HIGH);
-    ThisThread::sleep_for(500);
-  }
-}
+
+
+
 
 
 void serverThreadEntryPoint() {
@@ -158,5 +101,23 @@ String get_nmea_from_usbhost(USBHostSerialDevice &dev) {
     } else {
       incomingLine += c; // Ajoute le caractère au buffer
     }
+  }
+}
+
+
+
+void ledThreadEntryPoint() {
+  pinMode(LED_RED, OUTPUT);
+  pinMode(LED_GREEN, OUTPUT);
+  pinMode(LED_BLUE, OUTPUT);
+
+  digitalWrite(LED_RED, HIGH);
+  digitalWrite(LED_BLUE, HIGH);
+
+  while(1) {
+    digitalWrite(LED_GREEN, LOW);
+    ThisThread::sleep_for(500);
+    digitalWrite(LED_GREEN, HIGH);
+    ThisThread::sleep_for(500);
   }
 }
