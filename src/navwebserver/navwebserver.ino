@@ -4,7 +4,6 @@
 #include "Alarm.h"
 #include "LedService.h"
 
-#include <USBHostSerialDevice.h>
 
 
 using namespace rtos;
@@ -20,8 +19,8 @@ mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 USBHostSerialDevice hser(true);
 
 
+void serverThreadEntryPoint();
 
-String get_nmea_from_usbhost(USBHostSerialDevice &dev);
 
 
 
@@ -64,26 +63,9 @@ void loop() {
 
 
 
-String get_nmea_from_usbhost(USBHostSerialDevice &dev) {
-  String incomingLine = "";  // Buffer pour construire une ligne complète
-
-  while (dev.available()) {
-    char c = dev.read();
-
-    if (c == '\n') {  // Fin de trame NMEA
-      incomingLine.trim(); // enlève '\r' ou espaces
-
-      if (incomingLine.length() > 0) {
-        // On a une trame complète, on la revoie
-        return incomingLine;
-      }
-
-      incomingLine = ""; // Reset pour la prochaine trame
-    } else {
-      incomingLine += c; // Ajoute le caractère au buffer
-    }
+void serverThreadEntryPoint() {
+  while (true) {
+    server.handleClient(bateau);
+    ThisThread::sleep_for(10); // (ms) pour éviter de saturer le CPU
   }
 }
-
-
-

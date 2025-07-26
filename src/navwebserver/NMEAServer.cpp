@@ -103,9 +103,3 @@ void NMEAServer::sendNotFound(WiFiClient &client) {
 
 
 
-void serverThreadEntryPoint() {
-  while (true) {
-    server.handleClient(bateau);
-    ThisThread::sleep_for(10); // (ms) pour éviter de saturer le CPU
-  }
-}

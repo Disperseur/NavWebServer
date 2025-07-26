@@ -11,9 +11,12 @@
 
 #include "Averager.h"
 
+#include <USBHostSerialDevice.h>
+
 
 String millisToTimeString(unsigned long ms);
 
+String get_nmea_from_usbhost(USBHostSerialDevice &dev);
 
 
 class Nmea
