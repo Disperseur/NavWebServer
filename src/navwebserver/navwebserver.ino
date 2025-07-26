@@ -2,6 +2,8 @@
 #include "NMEAServer.h"
 #include "config.h"
 #include "Alarm.h"
+#include "LedService.h"
+
 #include <USBHostSerialDevice.h>
 
 
@@ -18,7 +20,6 @@ mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 USBHostSerialDevice hser(true);
 
 
-void ledThreadEntryPoint();
 void serverThreadEntryPoint();
 
 String get_nmea_from_usbhost(USBHostSerialDevice &dev);
@@ -106,18 +107,3 @@ String get_nmea_from_usbhost(USBHostSerialDevice &dev) {
 
 
 
-void ledThreadEntryPoint() {
-  pinMode(LED_RED, OUTPUT);
-  pinMode(LED_GREEN, OUTPUT);
-  pinMode(LED_BLUE, OUTPUT);
-
-  digitalWrite(LED_RED, HIGH);
-  digitalWrite(LED_BLUE, HIGH);
-
-  while(1) {
-    digitalWrite(LED_GREEN, LOW);
-    ThisThread::sleep_for(500);
-    digitalWrite(LED_GREEN, HIGH);
-    ThisThread::sleep_for(500);
-  }
-}
