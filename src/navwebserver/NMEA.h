@@ -82,6 +82,9 @@ public:
 
   bool get_pressure_alarm(void);
   void set_pressure_alarm(bool s);
+
+  bool get_depth_alarm(void);
+  void set_depth_alarm(bool s);
   
 
 private:
@@ -114,6 +117,7 @@ private:
 
   // alarmes
   bool pressure_alarm;
+  bool depth_alarm;
 
 };
 

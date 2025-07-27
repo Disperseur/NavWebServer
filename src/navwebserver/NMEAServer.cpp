@@ -45,10 +45,12 @@ void NMEAServer::handleClient(Nmea &bateau) {
       sendHTML(client);
     } else if (request.indexOf("GET /data") >= 0) {
       sendJSON(bateau, client);
-    } else if (request.indexOf("GET /disable-alarm") >= 0) {
-      //reset l'alarme
+    } else if (request.indexOf("GET /disable-pressure-alarm") >= 0) {
       bateau.set_pressure_alarm(false);
-      digitalWrite(5, LOW);
+      // digitalWrite(5, LOW);
+    } else if (request.indexOf("GET /disable-depth-alarm") >= 0) {
+      bateau.set_depth_alarm(false);
+      // digitalWrite(5, LOW);
     } else {
       sendNotFound(client);
     }
@@ -88,7 +90,8 @@ void NMEAServer::sendJSON(Nmea &bateau, WiFiClient &client) {
   json += "\"water_temperatureCelsius\":" + String(bateau.get_water_temperatureCelsius(), 0) + ",";
   json += "\"wind_angle\":" +               String(bateau.get_wind_angle(), 0) + ",";
   json += "\"wind_speedKts\":" +            String(bateau.get_wind_speedKts(), 0) + ",";
-  json += "\"pressure_alarm\":" +           String(bateau.get_pressure_alarm());
+  json += "\"pressure_alarm\":" +           String(bateau.get_pressure_alarm()) + ",";
+  json += "\"depth_alarm\":" +              String(bateau.get_depth_alarm());
   json += "}";
 
   client.println("HTTP/1.1 200 OK");

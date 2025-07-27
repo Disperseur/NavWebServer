@@ -239,6 +239,11 @@ void Nmea::set_pressure_alarm(bool s) {
   pressure_alarm = s;
 }
 
+ void Nmea::set_depth_alarm(bool s) {
+  depth_alarm = s;
+ }
+
+
 
 String Nmea::get_running_time(void) {
   return running_time;
@@ -319,4 +324,8 @@ float Nmea::get_water_speedKts_avg(void) {
 
 bool Nmea::get_pressure_alarm(void) {
   return pressure_alarm;
+}
+
+bool Nmea::get_depth_alarm(void) {
+  return depth_alarm;
 }

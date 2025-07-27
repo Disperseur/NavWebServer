@@ -11,6 +11,9 @@ using namespace rtos;
 
 
 void pressureAlarmThreadEntryPoint(void* arg);
+void depthAlarmThreadEntryPoint(void* arg);
+
+void buzzerAlarmWatcherEntryPoint(void* arg);
 // void cb_pressure_alarm_reset(void);
 
 

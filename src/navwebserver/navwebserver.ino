@@ -13,7 +13,10 @@ using namespace rtos;
 Thread ledThread(osPriorityLow);
 Thread serverThread(osPriorityNormal);
 Thread parserThread(osPriorityHigh);
+
 Thread pressureAlarmThread(osPriorityLow);
+Thread depthAlarmThread(osPriorityLow);
+Thread buzzerAlarmWatcherThread(osPriorityLow);
 
 static Nmea bateau;
 
@@ -26,11 +29,17 @@ mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 void setup() {
   Serial.begin(460800);
 
-  ledThread.start(            mbed::callback(ledThreadEntryPoint,           &bateau)); // status led start
-  parserThread.start(         mbed::callback(parserThreadEntryPoint,        &bateau));
+  ledThread.start(                mbed::callback(ledThreadEntryPoint,           &bateau)); // status led start
+  parserThread.start(             mbed::callback(parserThreadEntryPoint,        &bateau));
+
   ThisThread::sleep_for(1000);
-  serverThread.start(         mbed::callback(serverThreadEntryPoint,        &bateau));
-  pressureAlarmThread.start(  mbed::callback(pressureAlarmThreadEntryPoint, &bateau));
+
+  serverThread.start(             mbed::callback(serverThreadEntryPoint,        &bateau));
+
+  pressureAlarmThread.start(      mbed::callback(pressureAlarmThreadEntryPoint, &bateau));
+  depthAlarmThread.start(         mbed::callback(depthAlarmThreadEntryPoint,    &bateau));
+
+  buzzerAlarmWatcherThread.start( mbed::callback(buzzerAlarmWatcherEntryPoint,  &bateau));
 }
 
 void loop() {

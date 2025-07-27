@@ -43,7 +43,6 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
     table {
       width: auto;
       border-collapse: collapse;
-
     }
     td {
       padding: 4px;
@@ -87,26 +86,41 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
   <script>
 
 
-    function disableAlarm() {
-      fetch('/disable-alarm') // tu devras gérer cette route côté Arduino
-        .then(response => {
-          if (response.ok) {
-            document.getElementById('alarmIndicator').style.backgroundColor = 'grey';
-            //document.getElementById('alarmStatus').textContent = 'Alarme désactivée';
-          }
-        })
-        .catch(err => console.error('Erreur désactivation:', err));
+    function disablePressureAlarm() {
+      fetch('/disable-pressure-alarm') // tu devras gérer cette route côté Arduino
+        // .then(response => {
+        //   if (response.ok) {
+        //     document.getElementById('alarmButton_pressure').style.backgroundColor = 'grey';
+        //   }
+        // })
+        // .catch(err => console.error('Erreur désactivation:', err));
     }
 
-    // Exemple : mise à jour automatique de l'état de l'alarme
-    function updateAlarmState(isActive) {
-      const button = document.getElementById('alarmButton');
+    function disableDepthAlarm() {
+      fetch('/disable-depth-alarm') // tu devras gérer cette route côté Arduino
+        // .then(response => {
+        //   if (response.ok) {
+        //     document.getElementById('alarmButton_depth').style.backgroundColor = 'grey';
+        //   }
+        // })
+        // .catch(err => console.error('Erreur désactivation:', err));
+    }
+
+    function updatePressureAlarm(isActive) {
+      const button_pressureAlarm = document.getElementById('alarmButton_pressure');
       if (isActive) {
-        button.style.backgroundColor = 'red';
-        // button.textContent = 'GRAIN IMMINENT';
+        button_pressureAlarm.style.backgroundColor = 'red';
       } else {
-        button.style.backgroundColor = 'grey';
-        // button.textContent = 'Alarme désactivée';
+        button_pressureAlarm.style.backgroundColor = 'grey';
+      }
+    }
+
+    function updateDepthAlarm(isActive) {
+      const button_depthAlarm = document.getElementById('alarmButton_depth');
+      if (isActive) {
+        button_depthAlarm.style.backgroundColor = 'red';
+      } else {
+        button_depthAlarm.style.backgroundColor = 'grey';
       }
     }
 
@@ -140,8 +154,9 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
             if (el) el.textContent = data[key];
           }
 
-          // mise a jour alarme
-          updateAlarmState(data.pressure_alarm);
+          // mise a jour alarmes
+          updatePressureAlarm(data.pressure_alarm);
+          updateDepthAlarm(data.depth_alarm);
 
           // --- Dessin du vent ---
           const canvas = document.getElementById('windCanvas');
@@ -321,9 +336,13 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
   <div class="grid">
     <div class="card">
       <h2>Alarmes</h2>
-      <div style="display: flex; justify-content: center;">
-        <button id="alarmButton" onclick="disableAlarm()" style="font-size: 20px; padding: 15px 30px; border: none; border-radius: 10px; background-color: grey; color: white;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <button id="alarmButton_pressure" onclick="disablePressureAlarm()" style="font-size: 20px; padding: 15px 30px; border: none; border-radius: 10px; background-color: grey; color: white;">
           GRAIN IMMINENT
+        </button>
+
+        <button id="alarmButton_depth" onclick="disableDepthAlarm()" style="font-size: 20px; padding: 15px 30px; border: none; border-radius: 10px; background-color: grey; color: white;">
+          HAUTS-FONDS
         </button>
       </div>
     </div>
@@ -372,12 +391,12 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
 
       <canvas id="speedGraph" width="800" height="200"></canvas>
       <div style="text-align:center; font-size:0.95em; color:#555; margin-bottom:2px;">
-        Historique vitesse sol
+        Vitesse sol
       </div>
 
       <canvas id="depthGraph" width="800" height="200"></canvas>
       <div style="text-align:center; font-size:0.95em; color:#555; margin-bottom:2px;">
-        Historique profondeur sous quille
+        Profondeur sous quille
       </div>
 
     </div>
