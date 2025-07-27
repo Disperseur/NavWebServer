@@ -3,6 +3,28 @@
 // fonctions utilisateur
 
 
+void parserThreadEntryPoint(void* arg) {
+  Nmea* bateau = (Nmea*)arg;
+
+  USBHostSerialDevice hser(true); // a mettre en variable globale peut etre. actuellement pour que ca fontionne : alimenter la giga puis brancher le cable usb
+
+  // Enable the USBHost
+  pinMode(PA_15, OUTPUT);
+  digitalWrite(PA_15, HIGH);
+
+  while (!hser.connect()) {
+    Serial.println("No USB host Serial device connected");
+    delay(1000);
+  }
+  hser.begin(460800);
+
+  while(true) {
+    bateau->parse(get_nmea_from_usbhost(hser));
+    ThisThread::sleep_for(100);
+  }
+}
+
+
 
 String get_nmea_from_usbhost(USBHostSerialDevice &dev) {
   String incomingLine = "";  // Buffer pour construire une ligne complète

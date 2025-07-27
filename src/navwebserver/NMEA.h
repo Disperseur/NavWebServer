@@ -11,7 +11,13 @@
 
 #include "Averager.h"
 
+#include <mbed.h>
 #include <USBHostSerialDevice.h>
+
+using namespace rtos;
+
+void parserThreadEntryPoint(void* arg);
+
 
 
 String millisToTimeString(unsigned long ms);

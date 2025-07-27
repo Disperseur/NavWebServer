@@ -22,5 +22,8 @@ class NMEAServer {
 };
 
 
+void serverThreadEntryPoint(void* arg);
+
+
 
 #endif

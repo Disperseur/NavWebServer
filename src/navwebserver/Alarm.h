@@ -6,9 +6,12 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
+#include "NMEA.h"
 using namespace rtos;
 
 
+void pressureAlarmThreadEntryPoint(void* arg);
+// void cb_pressure_alarm_reset(void);
 
 
 

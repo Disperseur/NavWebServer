@@ -108,3 +108,15 @@ void NMEAServer::sendNotFound(WiFiClient &client) {
 
 
 
+void serverThreadEntryPoint(void* arg) {
+  Nmea* bateau = (Nmea*)arg;
+  
+  NMEAServer server;
+
+  server.init("Saint-Lou_Wifi", "123456789"); //SSID, PASSWORD
+
+  while (true) {
+    server.handleClient(*bateau);
+    ThisThread::sleep_for(10); // (ms) pour éviter de saturer le CPU
+  }
+}
