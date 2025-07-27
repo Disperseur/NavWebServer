@@ -115,6 +115,8 @@ void serverThreadEntryPoint(void* arg) {
 
   server.init("Saint-Lou_Wifi", "123456789"); //SSID, PASSWORD
 
+  Serial.println("[WIFI SERVER] Service started.");
+
   while (true) {
     server.handleClient(*bateau);
     ThisThread::sleep_for(10); // (ms) pour éviter de saturer le CPU

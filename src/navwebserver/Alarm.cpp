@@ -24,6 +24,8 @@ void pressureAlarmThreadEntryPoint(void* arg) {
   float oldTemp = bme.readTemperature();
   bateau->set_pressure_alarm(false);
 
+  Serial.println("[ALARM] Service started.");
+
   while(true) {
 #ifdef DEBUG_ALARM
     Serial.print("[ALARME] Temperature mesuree : ");

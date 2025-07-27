@@ -18,6 +18,8 @@ void parserThreadEntryPoint(void* arg) {
   }
   hser.begin(460800);
 
+  Serial.println("[USB PARSER] Service started.");
+
   while(true) {
     bateau->parse(get_nmea_from_usbhost(hser));
     ThisThread::sleep_for(100);
