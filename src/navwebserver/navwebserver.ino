@@ -6,9 +6,9 @@
 #include <mbed.h>
 #include "Callback.h"
 
-
-
 using namespace rtos;
+
+
 
 Thread ledThread(osPriorityLow);
 Thread serverThread(osPriorityNormal);
@@ -22,17 +22,15 @@ mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 #endif
 
 
+
 void setup() {
   Serial.begin(460800);
 
-  ledThread.start(ledThreadEntryPoint); // status led start
-  parserThread.start(mbed::callback(parserThreadEntryPoint, &bateau));
-  serverThread.start(mbed::callback(serverThreadEntryPoint, &bateau));
-  pressureAlarmThread.start(mbed::callback(pressureAlarmThreadEntryPoint, &bateau));
+  ledThread.start(            mbed::callback(ledThreadEntryPoint,           &bateau)); // status led start
+  parserThread.start(         mbed::callback(parserThreadEntryPoint,        &bateau));
+  serverThread.start(         mbed::callback(serverThreadEntryPoint,        &bateau));
+  pressureAlarmThread.start(  mbed::callback(pressureAlarmThreadEntryPoint, &bateau));
 }
-
-
-
 
 void loop() {
 #ifdef DEBUG_MCUTEMP

@@ -2,7 +2,9 @@
 
 
 
-void ledThreadEntryPoint() {
+void ledThreadEntryPoint(void* arg) {
+  Nmea* bateau = (Nmea*)arg;
+
   pinMode(LED_RED, OUTPUT);
   pinMode(LED_GREEN, OUTPUT);
   pinMode(LED_BLUE, OUTPUT);

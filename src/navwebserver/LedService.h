@@ -4,11 +4,12 @@
 
 #include <Arduino.h>
 #include <mbed.h>
+#include "NMEA.h"
 
 using namespace rtos;
 
 
-void ledThreadEntryPoint();
+void ledThreadEntryPoint(void* arg);
 
 
 
