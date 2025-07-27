@@ -12,24 +12,66 @@ using namespace rtos;
 
 Thread ledThread(osPriorityLow);
 Thread serverThread(osPriorityNormal);
+Thread parserThread(osPriorityHigh);
 Thread pressureAlarmThread(osPriorityLow);
 
 Nmea bateau;
-NMEAServer server;
+// NMEAServer server;
 mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 USBHostSerialDevice hser(true);
 
 
 void serverThreadEntryPoint(void* arg);
 void pressureAlarmThreadEntryPoint(void* arg);
-
-void cb_pressure_alarm_reset(void);
+void parserThreadEntryPoint(void* arg);
+// void cb_pressure_alarm_reset(void);
 
 
 
 
 void setup() {
   Serial.begin(460800);
+
+  // // Enable the USBHost
+  // pinMode(PA_15, OUTPUT);
+  // digitalWrite(PA_15, HIGH);
+
+  // while (!hser.connect()) {
+  //   Serial.println("No USB host Serial device connected");
+  //   delay(1000);
+  // }
+  // hser.begin(460800);
+
+  // server.init("Saint-Lou_Wifi", "123456789"); //SSID, PASSWORD
+
+  ledThread.start(ledThreadEntryPoint); // status led start
+  parserThread.start(mbed::callback(parserThreadEntryPoint, &bateau));
+  serverThread.start(mbed::callback(serverThreadEntryPoint, &bateau));
+  pressureAlarmThread.start(mbed::callback(pressureAlarmThreadEntryPoint, &bateau));
+
+}
+
+
+
+
+void loop() {
+  // bateau.parse(get_nmea_from_usbhost(hser));
+
+#ifdef DEBUG_MCUTEMP
+  int mcuTemp = __HAL_ADC_CALC_TEMPERATURE (3300, mcuADCTemp.read_u16(), ADC_RESOLUTION_16B);
+
+  Serial.print("MCU Temp : ");
+  Serial.print(mcuTemp);
+  Serial.println(" *C");
+#endif
+
+  ThisThread::sleep_for(1000);
+}
+
+
+
+void parserThreadEntryPoint(void* arg) {
+  Nmea* bateau = (Nmea*)arg;
 
   // Enable the USBHost
   pinMode(PA_15, OUTPUT);
@@ -41,36 +83,21 @@ void setup() {
   }
   hser.begin(460800);
 
-  server.init("Saint-Lou_Wifi", "123456789"); //SSID, PASSWORD
-
-  ledThread.start(ledThreadEntryPoint); // status led start
-  serverThread.start(mbed::callback(serverThreadEntryPoint, &bateau));
-  pressureAlarmThread.start(mbed::callback(pressureAlarmThreadEntryPoint, &bateau));
-
+  while(true) {
+    bateau->parse(get_nmea_from_usbhost(hser));
+    ThisThread::sleep_for(100);
+  }
 }
-
-
-
-
-void loop() {
-  bateau.parse(get_nmea_from_usbhost(hser));
-
-#ifdef DEBUG_MCUTEMP
-  int mcuTemp = __HAL_ADC_CALC_TEMPERATURE (3300, mcuADCTemp.read_u16(), ADC_RESOLUTION_16B);
-
-  Serial.print("MCU Temp : ");
-  Serial.print(mcuTemp);
-  Serial.println(" *C");
-#endif
-
-  ThisThread::sleep_for(100);
-}
-
 
 
 
 void serverThreadEntryPoint(void* arg) {
-  Nmea* bateau = (Nmea*)arg; 
+  Nmea* bateau = (Nmea*)arg;
+  
+  NMEAServer server;
+
+  server.init("Saint-Lou_Wifi", "123456789"); //SSID, PASSWORD
+
   while (true) {
     server.handleClient(*bateau);
     ThisThread::sleep_for(10); // (ms) pour éviter de saturer le CPU
