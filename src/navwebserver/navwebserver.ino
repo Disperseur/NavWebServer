@@ -15,7 +15,7 @@ Thread serverThread(osPriorityNormal);
 Thread parserThread(osPriorityHigh);
 Thread pressureAlarmThread(osPriorityLow);
 
-Nmea bateau;
+static Nmea bateau;
 
 #ifdef DEBUG_MCUTEMP
 mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
@@ -28,6 +28,7 @@ void setup() {
 
   ledThread.start(            mbed::callback(ledThreadEntryPoint,           &bateau)); // status led start
   parserThread.start(         mbed::callback(parserThreadEntryPoint,        &bateau));
+  ThisThread::sleep_for(1000);
   serverThread.start(         mbed::callback(serverThreadEntryPoint,        &bateau));
   pressureAlarmThread.start(  mbed::callback(pressureAlarmThreadEntryPoint, &bateau));
 }
