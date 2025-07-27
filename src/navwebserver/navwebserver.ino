@@ -3,11 +3,12 @@
 #include "config.h"
 #include "Alarm.h"
 #include "LedService.h"
+#include <mbed.h>
+#include "Callback.h"
 
 
 
 using namespace rtos;
-
 
 Thread ledThread(osPriorityLow);
 Thread serverThread(osPriorityNormal);
@@ -19,8 +20,9 @@ mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 USBHostSerialDevice hser(true);
 
 
-void serverThreadEntryPoint();
-void pressureAlarmThreadEntryPoint();
+void serverThreadEntryPoint(void* arg);
+void pressureAlarmThreadEntryPoint(void* arg);
+
 void cb_pressure_alarm_reset(void);
 
 
@@ -42,8 +44,8 @@ void setup() {
   server.init("Saint-Lou_Wifi", "123456789"); //SSID, PASSWORD
 
   ledThread.start(ledThreadEntryPoint); // status led start
-  serverThread.start(serverThreadEntryPoint);
-  pressureAlarmThread.start(pressureAlarmThreadEntryPoint);
+  serverThread.start(mbed::callback(serverThreadEntryPoint, &bateau));
+  pressureAlarmThread.start(mbed::callback(pressureAlarmThreadEntryPoint, &bateau));
 
 }
 
@@ -67,9 +69,10 @@ void loop() {
 
 
 
-void serverThreadEntryPoint() {
+void serverThreadEntryPoint(void* arg) {
+  Nmea* bateau = (Nmea*)arg; 
   while (true) {
-    server.handleClient(bateau);
+    server.handleClient(*bateau);
     ThisThread::sleep_for(10); // (ms) pour éviter de saturer le CPU
   }
 }
@@ -78,13 +81,16 @@ void serverThreadEntryPoint() {
 
 
 
-void pressureAlarmThreadEntryPoint() {
+void pressureAlarmThreadEntryPoint(void* arg) {
+  Nmea* bateau = (Nmea*)arg;
+
   Adafruit_BME280 bme; // I2C
 
   pinMode(5, OUTPUT); //buzzer pin
   digitalWrite(5, LOW);
-  pinMode(PC_13, INPUT);
-  attachInterrupt(digitalPinToInterrupt(PC_13), cb_pressure_alarm_reset, RISING);
+
+  // pinMode(PC_13, INPUT); //alarm off button
+  // attachInterrupt(digitalPinToInterrupt(PC_13), cb_pressure_alarm_reset, RISING);
 
 
   int status = bme.begin(0x76, &Wire1);
@@ -96,7 +102,7 @@ void pressureAlarmThreadEntryPoint() {
   }
   
   float oldTemp = bme.readTemperature();
-  bateau.set_pressure_alarm(false);
+  bateau->set_pressure_alarm(false);
 
   while(true) {
 #ifdef DEBUG_ALARM
@@ -107,7 +113,7 @@ void pressureAlarmThreadEntryPoint() {
 
     if(bme.readTemperature() > 33.0) { // (bme.readTemperature() - oldTemp > 2.0)
       digitalWrite(5, HIGH);
-      bateau.set_pressure_alarm(true);
+      bateau->set_pressure_alarm(true);
     }
     oldTemp = bme.readTemperature();
 
@@ -116,7 +122,7 @@ void pressureAlarmThreadEntryPoint() {
 }
 
 
-void cb_pressure_alarm_reset(void) {
-    digitalWrite(5, LOW);
-    bateau.set_pressure_alarm(false);
-}
+// void cb_pressure_alarm_reset(void) {
+//     digitalWrite(5, LOW);
+//     bateau.set_pressure_alarm(false);
+// }
