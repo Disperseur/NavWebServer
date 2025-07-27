@@ -12,7 +12,7 @@ void ledThreadEntryPoint(void* arg) {
   digitalWrite(LED_RED, HIGH);
   digitalWrite(LED_BLUE, HIGH);
 
-  Serial.println("[LEDS] Service started.");
+  Serial1.println("[LEDS] Service started.");
 
   while(1) {
     digitalWrite(LED_GREEN, LOW);

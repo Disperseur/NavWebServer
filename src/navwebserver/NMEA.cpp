@@ -13,41 +13,76 @@ void parserThreadEntryPoint(void* arg) {
   digitalWrite(PA_15, HIGH);
 
   while (!hser.connect()) {
-    Serial.println("No USB host Serial device connected");
+    Serial1.println("No USB host Serial1 device connected");
     delay(1000);
   }
   hser.begin(460800);
 
-  Serial.println("[USB PARSER] Service started.");
+  Serial1.println("[USB PARSER] Service started.");
+
+  String trame;
 
   while(true) {
-    bateau->parse(get_nmea_from_usbhost(hser));
+    trame = get_nmea_from_usbhost(hser);
+    bateau->parse(trame);
+
     ThisThread::sleep_for(100);
   }
 }
 
 
 
+// String get_nmea_from_usbhost(USBHostSerialDevice &dev) {
+//   String incomingLine = "";  // Buffer pour construire une ligne complète
+
+//   while (dev.available()) {
+//     char c = dev.read();
+
+//     if (c == '\n') {  // Fin de trame NMEA
+//       incomingLine.trim(); // enlève '\r' ou espaces
+
+//       if (incomingLine.length() > 0) {
+//         // On a une trame complète, on la revoie
+// #ifdef DEBUG_NMEA
+//         Serial1.println(incomingLine); // pour le log avec le pc
+// #endif
+//         return incomingLine;
+//       }
+
+//       incomingLine = ""; // Reset pour la prochaine trame
+//     } else {
+//       incomingLine += c; // Ajoute le caractère au buffer
+//     }
+//   }
+// }
+
 String get_nmea_from_usbhost(USBHostSerialDevice &dev) {
-  String incomingLine = "";  // Buffer pour construire une ligne complète
+  static String incomingLine = "";  // Conserve les caractères entre les appels
 
   while (dev.available()) {
     char c = dev.read();
 
-    if (c == '\n') {  // Fin de trame NMEA
-      incomingLine.trim(); // enlève '\r' ou espaces
+    if (c == '\n') {
+      incomingLine.trim();  // supprime '\r' et espaces
 
       if (incomingLine.length() > 0) {
-        // On a une trame complète, on la revoie
-        return incomingLine;
+#ifdef DEBUG_NMEA
+        Serial1.println(incomingLine);
+#endif
+        String complete = incomingLine;
+        incomingLine = "";  // reset pour prochaine trame
+        return complete;
       }
 
-      incomingLine = ""; // Reset pour la prochaine trame
+      incomingLine = "";  // réinitialise si la ligne était vide
     } else {
-      incomingLine += c; // Ajoute le caractère au buffer
+      incomingLine += c;
     }
   }
+
+  return "";  // rien à renvoyer pour le moment
 }
+
 
 
 
@@ -144,29 +179,29 @@ void Nmea::getWIMWVData(String nmea) {
 
 
 void Nmea::printData(void) {
-  Serial.println("");
-  // Serial.println("Statut anemometre: " + String(bateau.get_wind_sensorStatus()));
-  Serial.println("Statut GPS: " + String(get_ground_sensorStatus()));
+  Serial1.println("");
+  // Serial1.println("Statut anemometre: " + String(bateau.get_wind_sensorStatus()));
+  Serial1.println("Statut GPS: " + String(get_ground_sensorStatus()));
 
-  Serial.println("");
-  Serial.println("Date: " + String(get_ground_date()));
-  Serial.println("Heure UTC: " + get_ground_time());
-  Serial.println("Temps de navigation: " + String(get_running_time()) + " s");
+  Serial1.println("");
+  Serial1.println("Date: " + String(get_ground_date()));
+  Serial1.println("Heure UTC: " + get_ground_time());
+  Serial1.println("Temps de navigation: " + String(get_running_time()) + " s");
 
-  Serial.println("");
-  Serial.println("Latitude: " + get_ground_latitude() + " " + String(get_ground_latDir()));
-  Serial.println("Longitude: " + get_ground_longitude() + " " + String(get_ground_longDir()));
-  Serial.println("Vitesse sol: " + String(get_ground_speedKts()) + " kt");
-  Serial.println("Cap: " + String(get_ground_course()) + "°");
+  Serial1.println("");
+  Serial1.println("Latitude: " + get_ground_latitude() + " " + String(get_ground_latDir()));
+  Serial1.println("Longitude: " + get_ground_longitude() + " " + String(get_ground_longDir()));
+  Serial1.println("Vitesse sol: " + String(get_ground_speedKts()) + " kt");
+  Serial1.println("Cap: " + String(get_ground_course()) + "°");
   
-  Serial.println("");
-  Serial.println("Profondeur sous quille : " + String(get_water_depthMeters()) + " m");
-  Serial.println("Vitesse dans l'eau: " + String(get_water_speedKts()) + " kt");
-  Serial.println("Temperature de l'eau: " + String(get_water_temperatureCelsius()) + " °C");
+  Serial1.println("");
+  Serial1.println("Profondeur sous quille : " + String(get_water_depthMeters()) + " m");
+  Serial1.println("Vitesse dans l'eau: " + String(get_water_speedKts()) + " kt");
+  Serial1.println("Temperature de l'eau: " + String(get_water_temperatureCelsius()) + " °C");
 
-  Serial.println("");
-  Serial.println("Direction du vent: " + String(get_wind_angle()) + "°");
-  Serial.println("Vitesse du vent: " + String(get_wind_speedKts()) + " kt");
+  Serial1.println("");
+  Serial1.println("Direction du vent: " + String(get_wind_angle()) + "°");
+  Serial1.println("Vitesse du vent: " + String(get_wind_speedKts()) + " kt");
 }
 
 // Mutateurs et accesseurs

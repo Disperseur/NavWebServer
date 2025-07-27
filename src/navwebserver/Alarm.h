@@ -10,6 +10,8 @@
 using namespace rtos;
 
 
+#define BUZZER_PIN 69
+
 void pressureAlarmThreadEntryPoint(void* arg);
 void depthAlarmThreadEntryPoint(void* arg);
 

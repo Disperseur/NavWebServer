@@ -27,7 +27,8 @@ mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 
 
 void setup() {
-  Serial.begin(460800);
+  Serial1.begin(460800);
+  Serial2.begin(460800);
 
   ledThread.start(                mbed::callback(ledThreadEntryPoint,           &bateau)); // status led start
   parserThread.start(             mbed::callback(parserThreadEntryPoint,        &bateau));
@@ -46,9 +47,9 @@ void loop() {
 #ifdef DEBUG_MCUTEMP
   int mcuTemp = __HAL_ADC_CALC_TEMPERATURE (3300, mcuADCTemp.read_u16(), ADC_RESOLUTION_16B);
 
-  Serial.print("MCU Temp : ");
-  Serial.print(mcuTemp);
-  Serial.println(" *C");
+  Serial2.print("MCU Temp : ");
+  Serial2.print(mcuTemp);
+  Serial2.println(" *C");
 #endif
 
   ThisThread::sleep_for(1000);

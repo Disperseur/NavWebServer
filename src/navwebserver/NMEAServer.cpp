@@ -6,22 +6,22 @@ NMEAServer::NMEAServer()
 }
 
 void NMEAServer::init(const char* ssid, const char* password) {
-  Serial.println("Démarrage point d'accès : " + String(ssid));
+  Serial1.println("Démarrage point d'accès : " + String(ssid));
   
   if (WiFi.status() == WL_NO_MODULE) {
-    Serial.println("Erreur : pas de module WiFi");
+    Serial1.println("Erreur : pas de module WiFi");
     while (true);
   }
 
   int status = WiFi.beginAP(ssid, password);
   if (status != WL_AP_LISTENING) {
-    Serial.println("Erreur : impossible de créer l'AP");
+    Serial1.println("Erreur : impossible de créer l'AP");
     while (true);
   }
 
-  Serial.println("SSID: " + String(WiFi.SSID()));
-  Serial.print("IP: ");
-  Serial.println(WiFi.localIP());
+  Serial1.println("SSID: " + String(WiFi.SSID()));
+  Serial1.print("IP: ");
+  Serial1.println(WiFi.localIP());
 
   server.begin();
 }
@@ -31,14 +31,14 @@ void NMEAServer::handleClient(Nmea &bateau) {
   if (client) {
 
 #ifdef DEBUG_SERVER
-    Serial.println("Client connecté");
+    Serial1.println("Client connecté");
 #endif
 
     String request = client.readStringUntil('\r');
     client.read(); // consommer le '\n'
 
 #ifdef DEBUG_SERVER
-    Serial.println("Request: " + request);
+    Serial1.println("Request: " + request);
 #endif
 
     if (request.indexOf("GET / ") >= 0) {
@@ -47,10 +47,8 @@ void NMEAServer::handleClient(Nmea &bateau) {
       sendJSON(bateau, client);
     } else if (request.indexOf("GET /disable-pressure-alarm") >= 0) {
       bateau.set_pressure_alarm(false);
-      // digitalWrite(5, LOW);
     } else if (request.indexOf("GET /disable-depth-alarm") >= 0) {
       bateau.set_depth_alarm(false);
-      // digitalWrite(5, LOW);
     } else {
       sendNotFound(client);
     }
@@ -59,7 +57,7 @@ void NMEAServer::handleClient(Nmea &bateau) {
     client.stop();
 
 #ifdef DEBUG_SERVER
-    Serial.println("Client déconnecté");
+    Serial1.println("Client déconnecté");
 #endif
   }
 }
@@ -118,7 +116,7 @@ void serverThreadEntryPoint(void* arg) {
 
   server.init("Saint-Lou_Wifi", "123456789"); //SSID, PASSWORD
 
-  Serial.println("[WIFI SERVER] Service started.");
+  Serial1.println("[WIFI SERVER] Service started.");
 
   while (true) {
     server.handleClient(*bateau);
