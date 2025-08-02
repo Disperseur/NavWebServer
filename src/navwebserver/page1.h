@@ -27,7 +27,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
     }
     .card {
       background: #fff;
-      margin-bottom: 10px;
+      margin: 10px;
       padding: 10px;
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -341,7 +341,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
           GRAIN IMMINENT
         </button>
 
-        <button id="alarmButton_depth" onclick="disableDepthAlarm()" style="font-size: 20px; padding: 15px 30px; border: none; border-radius: 10px; background-color: grey; color: white;">
+        <button id="alarmButton_depth" onclick="disableDepthAlarm()" style="font-size: 20px; padding: 15px 30px; border: none; border-radius: 10px; background-color: grey; color: white; margin: 10px;">
           HAUTS-FONDS
         </button>
       </div>
