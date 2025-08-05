@@ -350,38 +350,38 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
     <div class="card">
       <h2>Horloge</h2>
       <table>
-        <tr><td class="label">Durée:</td><td><span id="running_time"></span></td></tr>
-        <tr><td class="label">Date:</td><td><span id="ground_date"></span></td></tr>
-        <tr><td class="label">Heure:</td><td><span id="ground_time"></span></td></tr>
+        <tr><td class="label">Durée :</td><td><span id="running_time"></span></td></tr>
+        <tr><td class="label">Date :</td><td><span id="ground_date"></span></td></tr>
+        <tr><td class="label">Heure :</td><td><span id="ground_time"></span></td></tr>
       </table>
     </div>
 
     <div class="card">
-      <h2>Route fond</h2>
+      <h2>Route Fond</h2>
       <table>
-        <tr><td class="label">Lat:</td><td><span id="ground_latitude"></span> <span id="ground_latDir"></span></td></tr>
-        <tr><td class="label">Lon:</td><td><span id="ground_longitude"></span> <span id="ground_longDir"></span></td></tr>
-        <tr><td class="label">Cap:</td><td><span id="ground_course"></span>°</td></tr>
-        <tr><td class="label">VF:</td><td><span id="ground_speedKts"></span> kt</td></tr>
-        <tr><td class="label">VFM:</td><td><span id="ground_speedKts_avg"></span> kt</td></tr>
+        <tr><td class="label">Lat :</td><td><span id="ground_latitude"></span> <span id="ground_latDir"></span></td></tr>
+        <tr><td class="label">Long :</td><td><span id="ground_longitude"></span> <span id="ground_longDir"></span></td></tr>
+        <tr><td class="label">Cap :</td><td><span id="ground_course"></span>°</td></tr>
+        <tr><td class="label">VF :</td><td><span id="ground_speedKts"></span> kt</td></tr>
+        <tr><td class="label">VFM :</td><td><span id="ground_speedKts_avg"></span> kt</td></tr>
       </table>
     </div>
 
     <div class="card">
-      <h2>Route surface</h2>
+      <h2>Route Surface</h2>
       <table>
-        <tr><td class="label">Profondeur:</td><td><span id="water_depthMeters"></span> m</td></tr>
-        <tr><td class="label">VS:</td><td><span id="water_speedKts"></span> kt</td></tr>
-        <tr><td class="label">VSM:</td><td><span id="water_speedKts_avg"></span> kt</td></tr>
-        <tr><td class="label">Temp eau:</td><td><span id="water_temperatureCelsius"></span>°C</td></tr>
+        <tr><td class="label">Profondeur :</td><td><span id="water_depthMeters"></span> m</td></tr>
+        <tr><td class="label">VS :</td><td><span id="water_speedKts"></span> kt</td></tr>
+        <tr><td class="label">VSM :</td><td><span id="water_speedKts_avg"></span> kt</td></tr>
+        <tr><td class="label">Temp eau :</td><td><span id="water_temperatureCelsius"></span>°C</td></tr>
       </table>
     </div>
 
     <div class="card">
       <h2>Vent</h2>
       <table>
-        <tr><td class="label">Origine:</td><td><span id="wind_angle"></span>°</td></tr>
-        <tr><td class="label">Vitesse:</td><td><span id="wind_speedKts"></span> kt</td></tr>
+        <tr><td class="label">Origine :</td><td><span id="wind_angle"></span>°</td></tr>
+        <tr><td class="label">Vitesse :</td><td><span id="wind_speedKts"></span> kt</td></tr>
       </table>
       <canvas id="windCanvas" width="200" height="200"></canvas>
     </div>
@@ -391,12 +391,12 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
 
       <canvas id="speedGraph" width="800" height="200"></canvas>
       <div style="text-align:center; font-size:0.95em; color:#555; margin-bottom:2px;">
-        Vitesse sol
+        Vitesse Sol
       </div>
 
       <canvas id="depthGraph" width="800" height="200"></canvas>
       <div style="text-align:center; font-size:0.95em; color:#555; margin-bottom:2px;">
-        Profondeur sous quille
+        Profondeur Sous Quille
       </div>
 
     </div>

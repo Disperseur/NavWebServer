@@ -48,7 +48,7 @@ void pressureAlarmThreadEntryPoint(void* arg) {
       }
   }
   
-  float oldTemp = bme.readTemperature();
+  float oldPress = bme.readPressure(); // en Pa
   bateau->set_pressure_alarm(false);
 
   Serial1.println("[ALARM] Service started.");
@@ -56,15 +56,15 @@ void pressureAlarmThreadEntryPoint(void* arg) {
   while(true) {
 #ifdef DEBUG_ALARM
     Serial1.print("[ALARME] Temperature mesuree : ");
-    Serial1.print(bme.readTemperature());
-    Serial1.println(" *C");
+    Serial1.print(bme.readPressure());
+    Serial1.println(" Pa");
 #endif
 
-    if(bme.readTemperature() > 33.0) { // (bme.readTemperature() - oldTemp > 2.0)
+    if( (oldPress - bme.readPressure()) >= 200.0) { //2hPa
       bateau->set_pressure_alarm(true);
     }
-    oldTemp = bme.readTemperature();
+    oldPress = bme.readPressure();
 
-    ThisThread::sleep_for(4000); // delai a modifier pour travailler sur 30 minutes
+    ThisThread::sleep_for(600000);
   }
 }
