@@ -12,7 +12,7 @@ using namespace rtos;
 
 Thread ledThread(osPriorityLow);
 Thread serverThread(osPriorityNormal);
-Thread parserThread(osPriorityHigh);
+Thread parserThread(osPriorityRealtime6);
 
 Thread pressureAlarmThread(osPriorityLow);
 Thread depthAlarmThread(osPriorityLow);
@@ -27,6 +27,7 @@ mbed::AnalogIn mcuADCTemp(ADC_TEMP); // pour la mesure de la temperature MCU
 
 
 void setup() {
+  Serial.begin(460800);
   Serial1.begin(460800);
   Serial2.begin(460800);
 

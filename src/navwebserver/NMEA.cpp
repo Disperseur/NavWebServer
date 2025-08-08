@@ -14,16 +14,20 @@ void parserThreadEntryPoint(void* arg) {
 
   while (!hser.connect()) {
     Serial1.println("No USB host Serial1 device connected");
+    Serial.println("No USB host Serial1 device connected");
     delay(1000);
   }
   hser.begin(460800);
 
   Serial1.println("[USB PARSER] Service started.");
+  Serial.println("[USB PARSER] Service started.");
+
 
   String trame;
 
   while(true) {
     trame = get_nmea_from_usbhost(hser);
+    hser.flush();
     bateau->parse(trame);
 
     ThisThread::sleep_for(100);
@@ -68,6 +72,8 @@ String get_nmea_from_usbhost(USBHostSerialDevice &dev) {
       if (incomingLine.length() > 0) {
 #ifdef DEBUG_NMEA
         Serial1.println(incomingLine);
+        Serial.println(incomingLine);
+
 #endif
         String complete = incomingLine;
         incomingLine = "";  // reset pour prochaine trame
@@ -109,22 +115,23 @@ Nmea::Nmea()
 
 
 int Nmea::parse(String nmea) {
-  running_time = millisToTimeString(millis());
+  running_time = millisToTimeString(millis()); // fix hardfault ?
 
+  if(nmea.lastIndexOf("$") != 0 || nmea.indexOf("!") != -1) return -1; // gere les chevauchement de trame nmea par une autre ou par une trame AIS
 
-  if(nmea.indexOf("GPRMC") != -1) {
+  if(nmea.indexOf("GPRMC") == 1) {
     getGPRMCData(nmea);
   }
-  else if(nmea.indexOf("SDDBT") != -1) {
+  else if(nmea.indexOf("SDDBT") == 1) {
     getSDDBTData(nmea);
   }
-  else if(nmea.indexOf("VWVHW") != -1) {
+  else if(nmea.indexOf("VWVHW") == 1) {
     getVWVHWData(nmea);
   }
-  else if(nmea.indexOf("WIMTW") != -1) {
+  else if(nmea.indexOf("WIMTW") == 1) {
     getWIMTWData(nmea);
   }
-  else if(nmea.indexOf("WIMWV") != -1) {
+  else if(nmea.indexOf("WIMWV") == 1) {
     getWIMWVData(nmea);
   }
 }

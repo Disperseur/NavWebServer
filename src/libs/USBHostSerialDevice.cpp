@@ -276,18 +276,20 @@ void USBHostSerialDevice::initFTDI() {
   if (format_ & 0x100) ftdi_format |= (0x2 << 11);
   host->controlWrite(dev, 0x40, 4, ftdi_format, 0, nullptr, 0); // data format 8N1
 
-  // set baud rate & 2
-  // uint32_t baudval = 3000000 / baudrate_;
 
-  printf("flag2\n");
   uint32_t baudval;
-  if(baudrate_ == 460800) {
-    // baudval = 0x4006;
-    // baudval = 3000000 / baudrate_;
+
+  printf("Setting baudrate...\n");
+  if( idVendor() == 0x0403 && idProduct() == 0xFD49 ) {
     baudval = 24000000 / baudrate_; // 24MHz pour le miniplex
-  }
-  else {
-    baudval = 3000000 / baudrate_;
+  } else {
+    if(baudrate_ == 460800) {
+      baudval = 0x4006;
+      // baudval = 3000000 / baudrate_;
+      // baudval = 24000000 / baudrate_; // 24MHz pour le miniplex
+    } else {
+      baudval = 3000000 / baudrate_;
+    }
   }
 
 
