@@ -8,6 +8,7 @@
 typedef enum {LAT, LON} Coord_t;
 
 struct GPRMC_Data {
+  bool    data_valid;
   String  ground_time;
   char    ground_sensorStatus;
   String  ground_latitude;

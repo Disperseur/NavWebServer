@@ -143,73 +143,98 @@ int Nmea::parse(String nmea) {
 
 void Nmea::getGPRMCData(String nmea) {
   GPRMC_Data result = parseGPRMC(nmea);
-  set_ground_time(result.ground_time);
-  set_ground_sensorStatus(result.ground_sensorStatus);
-  set_ground_latitude(result.ground_latitude);
-  set_ground_latDir(result.ground_latDir);
-  set_ground_longitude(result.ground_longitude);
-  set_ground_longDir(result.ground_lonDir);
-  set_ground_speedKts(result.ground_speedKts);
-  set_ground_course(result.ground_course);
-  set_ground_date(result.ground_date);
 
-  ground_speedKts_avg.addSample(result.ground_time, result.ground_speedKts);
-  ground_speedKts_avg.computeAverage();
+  if(result.data_valid) {
+    set_ground_time(result.ground_time);
+    set_ground_sensorStatus(result.ground_sensorStatus);
+    set_ground_latitude(result.ground_latitude);
+    set_ground_latDir(result.ground_latDir);
+    set_ground_longitude(result.ground_longitude);
+    set_ground_longDir(result.ground_lonDir);
+    set_ground_speedKts(result.ground_speedKts);
+    set_ground_course(result.ground_course);
+    set_ground_date(result.ground_date);
+
+    ground_speedKts_avg.addSample(result.ground_time, result.ground_speedKts);
+    ground_speedKts_avg.computeAverage();
+  } else {
+    //
+  }
 }
 
 void Nmea::getSDDBTData(String nmea) {
   SDDBT_Data result = parseSDDBT(nmea);
-  set_water_depthMeters(result.water_depthMeters);
+
+  if(result.data_valid) {
+    set_water_depthMeters(result.water_depthMeters);
+  } else {
+    //
+  }
 }
 
 void Nmea::getVWVHWData(String nmea) {
   VWVHW_Data result = parseVWVHW(nmea);
-  set_water_speedKts(result.water_speedKts);
 
-  water_speedKts_avg.addSample(ground_time, result.water_speedKts);
-  water_speedKts_avg.computeAverage();
+  if(result.data_valid) {
+    set_water_speedKts(result.water_speedKts);
+
+    water_speedKts_avg.addSample(ground_time, result.water_speedKts);
+    water_speedKts_avg.computeAverage();
+  } else {
+    //
+  }
 }
 
 void Nmea::getWIMTWData(String nmea) {
   WIMTW_Data result = parseWIMTW(nmea);
-  set_water_temperatureCelsius(result.water_temperatureCelsius);
+
+  if(result.data_valid) {
+    set_water_temperatureCelsius(result.water_temperatureCelsius);
+  } else {
+    //
+  }
 }
 
 void Nmea::getWIMWVData(String nmea) {
   WIMWV_Data result = parseWIMWV(nmea);
-  set_wind_angle(result.wind_angle);
-  set_wind_angleReference(result.wind_angleReference);
-  set_wind_speedKts(result.wind_speedKts);
-  set_wind_sensorStatus(result.wind_sensorStatus);
+
+  if(result.data_valid) {
+    set_wind_angle(result.wind_angle);
+    set_wind_angleReference(result.wind_angleReference);
+    set_wind_speedKts(result.wind_speedKts);
+    set_wind_sensorStatus(result.wind_sensorStatus);
+  } else {
+    //
+  }
 }
 
 
 
-void Nmea::printData(void) {
-  Serial1.println("");
-  // Serial1.println("Statut anemometre: " + String(bateau.get_wind_sensorStatus()));
-  Serial1.println("Statut GPS: " + String(get_ground_sensorStatus()));
+// void Nmea::printData(void) {
+//   Serial1.println("");
+//   // Serial1.println("Statut anemometre: " + String(bateau.get_wind_sensorStatus()));
+//   Serial1.println("Statut GPS: " + String(get_ground_sensorStatus()));
 
-  Serial1.println("");
-  Serial1.println("Date: " + String(get_ground_date()));
-  Serial1.println("Heure UTC: " + get_ground_time());
-  Serial1.println("Temps de navigation: " + String(get_running_time()) + " s");
+//   Serial1.println("");
+//   Serial1.println("Date: " + String(get_ground_date()));
+//   Serial1.println("Heure UTC: " + get_ground_time());
+//   Serial1.println("Temps de navigation: " + String(get_running_time()) + " s");
 
-  Serial1.println("");
-  Serial1.println("Latitude: " + get_ground_latitude() + " " + String(get_ground_latDir()));
-  Serial1.println("Longitude: " + get_ground_longitude() + " " + String(get_ground_longDir()));
-  Serial1.println("Vitesse sol: " + String(get_ground_speedKts()) + " kt");
-  Serial1.println("Cap: " + String(get_ground_course()) + "°");
+//   Serial1.println("");
+//   Serial1.println("Latitude: " + get_ground_latitude() + " " + String(get_ground_latDir()));
+//   Serial1.println("Longitude: " + get_ground_longitude() + " " + String(get_ground_longDir()));
+//   Serial1.println("Vitesse sol: " + String(get_ground_speedKts()) + " kt");
+//   Serial1.println("Cap: " + String(get_ground_course()) + "°");
   
-  Serial1.println("");
-  Serial1.println("Profondeur sous quille : " + String(get_water_depthMeters()) + " m");
-  Serial1.println("Vitesse dans l'eau: " + String(get_water_speedKts()) + " kt");
-  Serial1.println("Temperature de l'eau: " + String(get_water_temperatureCelsius()) + " °C");
+//   Serial1.println("");
+//   Serial1.println("Profondeur sous quille : " + String(get_water_depthMeters()) + " m");
+//   Serial1.println("Vitesse dans l'eau: " + String(get_water_speedKts()) + " kt");
+//   Serial1.println("Temperature de l'eau: " + String(get_water_temperatureCelsius()) + " °C");
 
-  Serial1.println("");
-  Serial1.println("Direction du vent: " + String(get_wind_angle()) + "°");
-  Serial1.println("Vitesse du vent: " + String(get_wind_speedKts()) + " kt");
-}
+//   Serial1.println("");
+//   Serial1.println("Direction du vent: " + String(get_wind_angle()) + "°");
+//   Serial1.println("Vitesse du vent: " + String(get_wind_speedKts()) + " kt");
+// }
 
 // Mutateurs et accesseurs
 

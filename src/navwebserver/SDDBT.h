@@ -6,6 +6,7 @@
 
 
 struct SDDBT_Data {
+  bool  data_valid;
   float water_depthFeet;
   float water_depthMeters;
   float water_depthFathoms;

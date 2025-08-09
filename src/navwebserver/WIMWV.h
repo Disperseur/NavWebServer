@@ -6,6 +6,7 @@
 
 
 struct WIMWV_Data {
+  bool    data_valid;
   float   wind_angle;
   char    wind_angleReference;     // R/T
   float   wind_speedKts;

@@ -5,6 +5,8 @@
 WIMTW_Data parseWIMTW(String nmea) {
   WIMTW_Data data;
 
+  data.data_valid = false;
+
   if (!nmea.startsWith("$WIMTW")) {
     Serial.print(nmea);
     Serial.println(" : Erreur: pas une phrase WIMTW");
@@ -30,7 +32,8 @@ WIMTW_Data parseWIMTW(String nmea) {
   if (count < 3) return data;
 
   data.water_temperatureCelsius = fields[1].toFloat();
-  data.water_temperatureUnit = fields[2].length() > 0 ? fields[2].charAt(0) : ' ';
+  data.water_temperatureUnit    = fields[2].length() > 0 ? fields[2].charAt(0) : ' ';
+  data.data_valid               = true;
 
   return data;
 }

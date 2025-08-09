@@ -4,6 +4,8 @@
 WIMWV_Data parseWIMWV(String nmea) {
   WIMWV_Data data;
 
+  data.data_valid = false;
+
   if (!nmea.startsWith("$WIMWV")) {
     Serial.print(nmea);
     Serial.println(" : Erreur: pas une phrase WIMWV");
@@ -28,11 +30,12 @@ WIMWV_Data parseWIMWV(String nmea) {
 
   if (count < 6) return data;
 
-  data.wind_angle =           fields[1].toFloat();
-  data.wind_angleReference =  fields[2].length() > 0 ? fields[2].charAt(0) : ' ';
-  data.wind_speedKts =        fields[3].toFloat();
-  data.wind_speedUnit =       fields[4].length() > 0 ? fields[4].charAt(0) : ' ';
-  data.wind_sensorStatus =    fields[5].length() > 0 ? fields[5].charAt(0) : ' ';
+  data.wind_angle           = fields[1].toFloat();
+  data.wind_angleReference  = fields[2].length() > 0 ? fields[2].charAt(0) : ' ';
+  data.wind_speedKts        = fields[3].toFloat();
+  data.wind_speedUnit       = fields[4].length() > 0 ? fields[4].charAt(0) : ' ';
+  data.wind_sensorStatus    = fields[5].length() > 0 ? fields[5].charAt(0) : ' ';
+  data.data_valid           = true;
 
   return data;
 }

@@ -6,6 +6,8 @@
 SDDBT_Data parseSDDBT(String nmea) {
   SDDBT_Data data;
 
+  data.data_valid = false; 
+
   if (!nmea.startsWith("$SDDBT")) {
     Serial.print(nmea);
     Serial.println(" : Erreur: pas une phrase SDDBT");
@@ -32,36 +34,10 @@ SDDBT_Data parseSDDBT(String nmea) {
 
   if (count < 6) return data;
 
-  data.water_depthFeet =    fields[1].toFloat();
-  data.water_depthMeters =  fields[3].toFloat();
+  data.water_depthFeet    = fields[1].toFloat();
+  data.water_depthMeters  = fields[3].toFloat();
   data.water_depthFathoms = fields[5].toFloat();
+  data.data_valid         = true;
 
   return data;
 }
-
-
-// //old version
-// SDDBT_Data parseSDDBT(String nmea) {
-//   SDDBT_Data data;
-//   if (!nmea.startsWith("$SDDBT")) return data;
-//   nmea.trim();
-
-//   int lastIndex = 0;
-//   int index = 0;
-//   int fieldIndex = 0;
-
-//   while ((index = nmea.indexOf(',', lastIndex)) != -1) {
-//     String field = nmea.substring(lastIndex, index);
-//     lastIndex = index + 1;
-
-//     switch (fieldIndex) {
-//       case 1: data.water_depthFeet = field.toFloat(); break;
-//       case 3: data.water_depthMeters = field.toFloat(); break;
-//       case 5: data.water_depthFathoms = field.toFloat(); break;
-//     }
-
-//     fieldIndex++;
-//   }
-
-//   return data;
-// }

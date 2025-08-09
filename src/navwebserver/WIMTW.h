@@ -6,6 +6,7 @@
 
 
 struct WIMTW_Data {
+  bool    data_valid;
   float   water_temperatureCelsius;
   char    water_temperatureUnit; // C
 };

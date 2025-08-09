@@ -5,8 +5,6 @@ Serveur local sur Arduino Giga R1 Wifi pour affichage des données de navigation
 
 ## TODO
 
-- thème sombre
-- trame GPRMC, cas ou elle est plus petite ?
 - buzzer extinction auto 
 - buzzer sequence différente en fonction du type d'alarme
 

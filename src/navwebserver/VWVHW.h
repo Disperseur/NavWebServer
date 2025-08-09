@@ -6,6 +6,7 @@
 
 
 struct VWVHW_Data {
+  bool    data_valid;
   float   water_speedKts;
   char    water_speedKtsUnit;
   float   water_speedKmh;
