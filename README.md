@@ -5,9 +5,7 @@ Serveur local sur Arduino Giga R1 Wifi pour affichage des données de navigation
 
 ## TODO
 
-- buzzer extinction auto 
-- buzzer sequence différente en fonction du type d'alarme
-
+- renforcer parsing gprmc precisement (date en particulier...)
 
 ### moyenne
 
