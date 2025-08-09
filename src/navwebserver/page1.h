@@ -11,13 +11,14 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
     body {
       font-family: Arial, sans-serif;
       font-size: 35px;
-      background: #f2f2f2;
+      background: #000;
+      color: #fff;
       margin: 0;
       padding: 10px;
     }
     h1 {
       text-align: center;
-      color: #333;
+      color: #fff;
     }
     .grid {
       display: flex;
@@ -26,19 +27,20 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       gap: 15px;
     }
     .card {
-      background: #fff;
+      background: #111;
       margin: 10px;
       padding: 10px;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      // box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+      border: 1px solid #fff;
     }
     .card h2 {
       text-align: center;
       margin-top: 0;
       font-size: 1.1em;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #fff;
       padding-bottom: 5px;
-      color: #555;
+      color: #fff;
     }
     table {
       width: auto;
@@ -49,35 +51,37 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       vertical-align: top;
       white-space: nowrap;
       min-width: 200px;
+      color: #fff;
     }
     td.label {
       font-weight: bold;
-      color: #333;
+      color: #fff;
       width: 60%;
     }
     footer {
       text-align: center;
       font-size: 0.9em;
-      color: #666;
+      color: #fff;
       margin-top: 10px;
     }
     #speedGraph {
       display: block;
       margin: 10px auto;
-      background: #fafbfc;
-      border: 1px solid #888;
+      background: #181818;
+      border: 1px solid #fff;
       border-radius: 4px;
     }
     #depthGraph {
       display: block;
       margin: 10px auto;
-      background: #fafbfc;
-      border: 1px solid #888;
+      background: #181818;
+      border: 1px solid #fff;
       border-radius: 4px;
     }
     #windCanvas {
       display: block;
       margin: 10px auto;
+      border-radius: 4px;
     }
   </style>
 
@@ -169,7 +173,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
           // Cercle
           ctx.beginPath();
           ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
-          ctx.strokeStyle = '#333';
+          ctx.strokeStyle = '#fff';
           ctx.lineWidth = 2;
           ctx.stroke();
 
@@ -205,14 +209,14 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
           gctx.beginPath();
           gctx.moveTo(0, graph.height - 1);
           gctx.lineTo(graph.width, graph.height - 1);
-          gctx.strokeStyle = '#888';
+          gctx.strokeStyle = '#fff';
           gctx.lineWidth = 1;
           gctx.stroke();
 
           // Cadre autour du graphe
           gctx.beginPath();
           gctx.rect(0, 0, graph.width, graph.height);
-          gctx.strokeStyle = '#888';
+          gctx.strokeStyle = '#fff';
           gctx.lineWidth = 1;
           gctx.stroke();
 
@@ -220,8 +224,8 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
           const maxSpeed = 20; // ajustable
           const gradStep = 5;  // graduation tous les 5 kt
           gctx.font = "10px Arial";
-          gctx.fillStyle = "#333";
-          gctx.strokeStyle = "#bbb";
+          gctx.fillStyle = "#fff";
+          gctx.strokeStyle = "#fff";
           gctx.lineWidth = 1;
           for (let v = 0; v <= maxSpeed; v += gradStep) {
             const y = graph.height - (v / maxSpeed) * graph.height;
@@ -237,9 +241,9 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
               gctx.beginPath();
               gctx.moveTo(0, y);
               gctx.lineTo(graph.width, y);
-              gctx.strokeStyle = "#eee";
+              gctx.strokeStyle = "#fff";
               gctx.stroke();
-              gctx.strokeStyle = "#bbb";
+              gctx.strokeStyle = "#fff";
             }
           }
 
@@ -251,7 +255,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
             if (i === 0) gctx.moveTo(x, y);
             else gctx.lineTo(x, y);
           }
-          gctx.strokeStyle = 'blue';
+          gctx.strokeStyle = 'white';
           gctx.lineWidth = 2;
           gctx.stroke();
 
@@ -271,14 +275,14 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
           dctx.beginPath();
           dctx.moveTo(0, depthGraph.height - 1);
           dctx.lineTo(depthGraph.width, depthGraph.height - 1);
-          dctx.strokeStyle = '#888';
+          dctx.strokeStyle = '#fff';
           dctx.lineWidth = 1;
           dctx.stroke();
 
           // Cadre autour du graphe
           dctx.beginPath();
           dctx.rect(0, 0, depthGraph.width, depthGraph.height);
-          dctx.strokeStyle = '#888';
+          dctx.strokeStyle = '#fff';
           dctx.lineWidth = 1;
           dctx.stroke();
 
@@ -286,8 +290,8 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
           const maxDepth = 30; // ajustable selon ton plan d'eau
           const gradStepDepth = 5; // graduation tous les 2 m
           dctx.font = "10px Arial";
-          dctx.fillStyle = "#333";
-          dctx.strokeStyle = "#bbb";
+          dctx.fillStyle = "#fff";
+          dctx.strokeStyle = "#fff";
           dctx.lineWidth = 1;
           for (let v = 0; v <= maxDepth; v += gradStepDepth) {
             const y = (v / maxDepth) * depthGraph.height;
@@ -303,9 +307,9 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
               dctx.beginPath();
               dctx.moveTo(0, y);
               dctx.lineTo(depthGraph.width, y);
-              dctx.strokeStyle = "#eee";
+              dctx.strokeStyle = "#fff";
               dctx.stroke();
-              dctx.strokeStyle = "#bbb";
+              dctx.strokeStyle = "#fff";
             }
           }
 
@@ -317,7 +321,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
             if (i === 0) dctx.moveTo(x, y);
             else dctx.lineTo(x, y);
           }
-          dctx.strokeStyle = 'green';
+          dctx.strokeStyle = 'white';
           dctx.lineWidth = 2;
           dctx.stroke();
 
@@ -390,12 +394,12 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
       <h2>Historiques</h2>
 
       <canvas id="speedGraph" width="800" height="200"></canvas>
-      <div style="text-align:center; font-size:0.95em; color:#555; margin-bottom:2px;">
+      <div style="text-align:center; font-size:0.95em; color:#fff; margin-bottom:2px;">
         Vitesse Sol
       </div>
 
       <canvas id="depthGraph" width="800" height="200"></canvas>
-      <div style="text-align:center; font-size:0.95em; color:#555; margin-bottom:2px;">
+      <div style="text-align:center; font-size:0.95em; color:#fff; margin-bottom:2px;">
         Profondeur Sous Quille
       </div>
 

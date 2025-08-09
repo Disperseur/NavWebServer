@@ -5,9 +5,10 @@ Serveur local sur Arduino Giga R1 Wifi pour affichage des données de navigation
 
 ## TODO
 
-- Attention aux unités ... es ce que changer la config sur un instrument change l'unité retournée par le mux ? a prendre en charge ...
-
-
+- thème sombre
+- trame GPRMC, cas ou elle est plus petite ?
+- buzzer extinction auto 
+- buzzer sequence différente en fonction du type d'alarme
 
 
 ### moyenne
