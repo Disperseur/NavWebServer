@@ -5,7 +5,7 @@ FILE_DUMMY1         = "log.txt"
 FILE_NAV1_TEYCHAN   = "nav1.txt"
 FILE_TEST           = "test.txt"
 
-used_file = FILE_DUMMY1
+used_file = FILE_NAV1_TEYCHAN
 
 port = serial.Serial("COM17", 460800)
 

@@ -255,7 +255,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
             if (i === 0) gctx.moveTo(x, y);
             else gctx.lineTo(x, y);
           }
-          gctx.strokeStyle = 'white';
+          gctx.strokeStyle = 'red';
           gctx.lineWidth = 2;
           gctx.stroke();
 
@@ -321,7 +321,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
             if (i === 0) dctx.moveTo(x, y);
             else dctx.lineTo(x, y);
           }
-          dctx.strokeStyle = 'white';
+          dctx.strokeStyle = 'red';
           dctx.lineWidth = 2;
           dctx.stroke();
 
@@ -374,7 +374,7 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
     <div class="card">
       <h2>Route Surface</h2>
       <table>
-        <tr><td class="label">Profondeur :</td><td><span id="water_depthMeters"></span> m</td></tr>
+        <tr><td class="label">Sonde :</td><td><span id="water_depthMeters"></span> m</td></tr>
         <tr><td class="label">VS :</td><td><span id="water_speedKts"></span> kt</td></tr>
         <tr><td class="label">VSM :</td><td><span id="water_speedKts_avg"></span> kt</td></tr>
         <tr><td class="label">Temp eau :</td><td><span id="water_temperatureCelsius"></span>°C</td></tr>
@@ -391,23 +391,21 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
     </div>
 
      <div class="card">
-      <h2>Historiques</h2>
-
-      <canvas id="speedGraph" width="800" height="200"></canvas>
       <div style="text-align:center; font-size:0.95em; color:#fff; margin-bottom:2px;">
         Vitesse Sol
       </div>
-
-      <canvas id="depthGraph" width="800" height="200"></canvas>
+      <canvas id="speedGraph" width="800" height="200"></canvas>
+      
       <div style="text-align:center; font-size:0.95em; color:#fff; margin-bottom:2px;">
-        Profondeur Sous Quille
+        Sonde
       </div>
+      <canvas id="depthGraph" width="800" height="200"></canvas>
 
     </div>
   </div>
 
   <footer>
-    <p>Antoine Chassaigne - Juillet 2025 - Version 1.0</p>
+    <p>Antoine Chassaigne - Juillet 2025 - Version 1.1</p>
   </footer>
 </body>
 </html>

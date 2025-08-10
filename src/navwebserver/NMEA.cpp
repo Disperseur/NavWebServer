@@ -153,7 +153,9 @@ void Nmea::getGPRMCData(String nmea) {
     set_ground_longDir(result.ground_lonDir);
     set_ground_speedKts(result.ground_speedKts);
     set_ground_course(result.ground_course);
-    set_ground_date(result.ground_date);
+    if(result.ground_date != "") { // <-- Ajouté
+      set_ground_date(result.ground_date);
+    }
 
     ground_speedKts_avg.addSample(result.ground_time, result.ground_speedKts);
     ground_speedKts_avg.computeAverage();
